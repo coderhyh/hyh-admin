@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue3 + Vite + TS</title>
+  </head>
+  <body>
+    <div id="app">
+      <style>
+        *,
+        *::before,
+        *::after {
+          box-sizing: border-box;
+        }
+
+        html {
+          font-size: 18px;
+        }
+
+        body {
+          background: #fff;
+          line-height: 1.6;
+          font-family: Roboto, sans-serif;
+          font-size: 1em;
+        }
+
+        .loader {
+          position: fixed;
+          left: 50%;
+          top: 50%;
+          border-radius: 5px;
+          width: 50px;
+          height: 10px;
+          background: #3498db;
+          transform: translate(-50%, -50%);
+          animation: load 1.8s ease-in-out infinite;
+        }
+
+        .loader::before,
+        .loader::after {
+          display: block;
+          position: absolute;
+          border-radius: 5px;
+          height: 10px;
+          content: '';
+          animation: load 1.8s ease-in-out infinite;
+        }
+
+        .loader::before {
+          left: 10px;
+          top: -20px;
+          width: 40px;
+          background: #ef4836;
+        }
+
+        .loader::after {
+          bottom: -20px;
+          width: 35px;
+          background: #f5ab35;
+        }
+
+        @keyframes load {
+          0% {
+            transform: translateX(40px);
+          }
+
+          50% {
+            transform: translateX(-30px);
+          }
+
+          100% {
+            transform: translateX(40px);
+          }
+        }
+      </style>
+      <div class="loader"></div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

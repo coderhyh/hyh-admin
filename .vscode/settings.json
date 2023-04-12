@@ -1,0 +1,22 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  },
+  "stylelint.validate": ["css", "less", "vue", "html"],
+  "eslint.validate": ["typescript", "vue", "html", "json", "javascript"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "json.format.enable": false,
+  "files.eol": "\n",
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
