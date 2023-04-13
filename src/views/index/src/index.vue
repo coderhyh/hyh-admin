@@ -1,16 +1,19 @@
 <template>
   <div class="index">
-    <h1>Index</h1>
+    <HyhForm v-model="formData" v-bind="{ formConfig }"> </HyhForm>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { formConfig } from './config'
+
+const formData = ref({
+  name: '',
+  age: ''
+})
+</script>
 
 <style lang="less" scoped>
-.index {
-  display: flex;
-  width: 500px;
-  height: 500px;
-  user-select: none;
-}
+// .index {
+// }
 </style>

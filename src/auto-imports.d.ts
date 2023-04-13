@@ -63,6 +63,7 @@ declare global {
   const useRouter: typeof import('vue-router')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
   const useStore: typeof import('~/plugins/pinia-auto-refs')['useStore']
+  const useVModel: typeof import('~/hooks')['useVModel']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']

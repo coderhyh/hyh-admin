@@ -62,6 +62,7 @@
     "useRouter": "readonly",
     "useSlots": "readonly",
     "useStore": "readonly",
+    "useVModel": "readonly",
     "watch": "readonly",
     "watchEffect": "readonly",
     "watchPostEffect": "readonly",

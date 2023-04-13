@@ -23,7 +23,13 @@ export default defineConfig({
     AutoImportTypes({ dtsDir: 'src/types' }),
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
-      imports: ['vue', 'pinia', 'vue-router', { '~/plugins/pinia-auto-refs': ['useStore'] }, { '~/hooks': [] }],
+      imports: [
+        'vue',
+        'pinia',
+        'vue-router',
+        { '~/plugins/pinia-auto-refs': ['useStore'] },
+        { '~/hooks': ['useVModel'] }
+      ],
       dts: 'src/auto-imports.d.ts',
       resolvers: [ElementPlusResolver()],
       eslintrc: {
@@ -35,7 +41,7 @@ export default defineConfig({
     // https://github.com/antfu/unplugin-vue-components
     Components({
       dts: 'src/components.d.ts',
-      dirs: ['src/components-g'], // 按需加载的文件夹
+      dirs: ['src/components'], // 按需加载的文件夹
       resolvers: [ElementPlusResolver()]
     }),
     // https://github.com/antfu/unocss
