@@ -1,0 +1,108 @@
+<template>
+  <div class="aside" :style="{ width: `${asideWidth}px` }">
+    <section>
+      <img src="/favicon.ico" alt="logo" />
+      <h2 v-if="!isCollapse && size > 500" class="title">umabs</h2>
+    </section>
+    <el-menu
+      router
+      :default-active="route.path"
+      :collapse="isCollapse"
+      background-color="#304156"
+      text-color="#bfcbd9"
+      active-text-color="#409EFF"
+      @select="menuSelect"
+    >
+      <TreeMenu :menu-list="menuList"></TreeMenu>
+    </el-menu>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { DEVICE } from '~/global/mapDeviceSize'
+import { routes } from '~/router/routes'
+const menuList = ref(routes[0].children)
+const { isCollapse, winSize: size } = useStore('layout')
+
+const route = useRoute()
+
+const menuSelect = () => {
+  if (window.innerWidth <= DEVICE.mobile) {
+    isCollapse.value = true
+    size.value = window.innerWidth > DEVICE.ipad ? 600 : window.innerWidth
+  }
+}
+
+const asideWidth = computed(() => {
+  if (size.value > DEVICE.ipad) {
+    return 250
+  } else if (size.value > DEVICE.mobile && size.value <= DEVICE.ipad) {
+    return 70
+  } else if (size.value <= DEVICE.mobile) {
+    return 0
+  }
+})
+
+const handleResize = () => {
+  isCollapse.value = size.value <= 730
+}
+watch(size, handleResize, { immediate: true, deep: true })
+</script>
+
+<style lang="less" scoped>
+.aside {
+  overflow: hidden;
+  position: relative;
+  max-width: 250px;
+  height: 100vh;
+  background: #304156;
+  transition: all 0.3s ease;
+
+  section {
+    display: flex;
+    position: absolute;
+    top: 6px;
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 34px;
+    user-select: none;
+
+    .title {
+      text-align: center;
+      font-size: 23px;
+      color: white;
+      white-space: nowrap;
+    }
+
+    img {
+      margin-right: 5px;
+      border-radius: 5px;
+      width: 34px;
+      height: 34px;
+    }
+  }
+
+  :deep(.el-menu--vertical) {
+    margin-top: 60px;
+    border: 0 !important;
+    width: 250px;
+  }
+
+  :deep(.el-menu--collapse) {
+    width: 70px;
+  }
+
+  :deep(.el-drawer) {
+    .el-drawer__body {
+      padding: 0;
+      background-color: #304156;
+
+      > .el-menu--vertical {
+        width: 150px !important;
+      }
+    }
+  }
+}
+</style>

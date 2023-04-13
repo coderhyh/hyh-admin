@@ -8,8 +8,25 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Cpn: typeof import('./components-g/cpn.vue')['default']
+    Crumbs: typeof import('./components-g/crumbs/crumbs.vue')['default']
+    ElAside: typeof import('element-plus/es')['ElAside']
+    ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
+    ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
+    ElButton: typeof import('element-plus/es')['ElButton']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
+    ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDrawer: typeof import('element-plus/es')['ElDrawer']
+    ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElMain: typeof import('element-plus/es')['ElMain']
+    ElMenu: typeof import('element-plus/es')['ElMenu']
+    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
+    ElRadio: typeof import('element-plus/es')['ElRadio']
+    ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
+    HeaderTabs: typeof import('./components-g/header-tabs/header-tabs.vue')['default']
+    Icon: typeof import('./components-g/Icon/Icon.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TreeMenu: typeof import('./components-g/tree-menu/tree-menu.vue')['default']
   }
 }

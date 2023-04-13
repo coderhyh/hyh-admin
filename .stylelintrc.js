@@ -12,7 +12,7 @@ module.exports = {
     }
   ],
   rules: {
-    'selector-class-pattern': '^([a-z][a-z0-9]*)(-+[a-z0-9]+)*$',
+    'selector-class-pattern': '^([a-z][a-z0-9]*)([-_]+[a-z0-9]+)*$',
     'declaration-block-trailing-semicolon': null,
     'no-empty-source': null,
     'string-quotes': null,
