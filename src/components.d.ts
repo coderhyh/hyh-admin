@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Card: typeof import('./base-ui/card/card.vue')['default']
     Crumbs: typeof import('./components/crumbs/crumbs.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -24,12 +25,15 @@ declare module '@vue/runtime-core' {
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
+    ElOption: typeof import('element-plus/es')['ElOption']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRow: typeof import('element-plus/es')['ElRow']
+    ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     HeaderTabs: typeof import('./components/header-tabs/header-tabs.vue')['default']
-    HyhForm: typeof import('./components/hyh-form/hyh-form.vue')['default']
-    Icon: typeof import('./components/Icon/Icon.vue')['default']
+    HyhForm: typeof import('./base-ui/hyh-form/src/hyh-form.vue')['default']
+    Icon: typeof import('./base-ui/Icon/Icon.vue')['default']
+    PageForm: typeof import('./components/page-form/page-form.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TreeMenu: typeof import('./components/tree-menu/tree-menu.vue')['default']

@@ -41,7 +41,7 @@ export default defineConfig({
     // https://github.com/antfu/unplugin-vue-components
     Components({
       dts: 'src/components.d.ts',
-      dirs: ['src/components'], // 按需加载的文件夹
+      dirs: ['src/components', 'src/base-ui'], // 按需加载的文件夹
       resolvers: [ElementPlusResolver()]
     }),
     // https://github.com/antfu/unocss
@@ -57,14 +57,14 @@ export default defineConfig({
     open: true, //自动打开
     base: './ ', //生产环境路径
     hmr: true,
-    host: '0.0.0.0',
-    proxy: {
-      '/api': {
-        target: 'https://echarts.apache.org/examples',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
+    host: '0.0.0.0'
+    // proxy: {
+    //   '/api': {
+    //     target: 'https://echarts.apache.org/examples',
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, '')
+    //   }
+    // }
   },
   // 打包配置
   build: {

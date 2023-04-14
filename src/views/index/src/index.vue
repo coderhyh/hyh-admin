@@ -1,19 +1,13 @@
 <template>
   <div class="index">
-    <HyhForm v-model="formData" v-bind="{ formConfig }"> </HyhForm>
+    <PageForm :form-config="formConfig" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { formConfig } from './config'
+import PageForm from '~/components/page-form/page-form.vue'
 
-const formData = ref({
-  name: '',
-  age: ''
-})
+import { formConfig } from './config'
 </script>
 
-<style lang="less" scoped>
-// .index {
-// }
-</style>
+<style lang="less" scoped></style>
