@@ -38,5 +38,6 @@ const handleQueryClick = () => {
   padding: 20px;
   border-radius: 10px;
   background: white;
+  box-shadow: var(--el-box-shadow-lighter);
 }
 </style>

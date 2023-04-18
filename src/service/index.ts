@@ -1,16 +1,15 @@
-// service统一出口
+import { user } from '~/store/index'
+
 import Request from './request'
-import { BASE_URL, TIME_OUT } from './request/config'
 
 const Request1 = new Request({
-  baseURL: BASE_URL,
-  timeout: TIME_OUT,
+  baseURL: import.meta.env.VITE_BASE_URL,
+  timeout: 10000,
   interceptors: {
     requestInterceptor: (config) => {
-      // 携带token的拦截
-      const token = '123'
-      if (token) {
-        config.headers!.Authorization = `Bearer ${token}`
+      const userStore = user()
+      if (userStore.token) {
+        config.headers!.Authorization = `Bearer ${userStore.token}`
       }
       return config
     }

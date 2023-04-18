@@ -45,9 +45,14 @@ html {
  * Remove the margin in all browsers.
  */
 
-body {
+* {
   margin: 0;
   padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
 }
 
 /**

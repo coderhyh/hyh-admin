@@ -1,6 +1,9 @@
 <template>
   <div class="header">
-    <Crumbs />
+    <section>
+      <HeaderCrumbs />
+      <HeaderControl />
+    </section>
     <HeaderTabs v-if="isShowHeaderTabs" />
   </div>
 </template>
@@ -15,5 +18,11 @@ const isShowHeaderTabs = computed(() => (winSize.value, window.innerWidth > DEVI
 <style lang="less" scoped>
 .header {
   height: 60px;
+
+  section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 </style>

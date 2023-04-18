@@ -2,6 +2,10 @@ import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Canc
 import axios from 'axios'
 import NProgress from 'nprogress'
 
+import { elementUtils } from '~/global/elementUtils'
+import router from '~/router'
+import { user } from '~/store'
+
 import type { RequestConfig, RequestInterceptors } from './type'
 
 const DEFAULT_LOADING = false
@@ -39,16 +43,25 @@ class Request {
     this.instance.interceptors.response.use(
       (res: AxiosResponse) => {
         this.showLoading && NProgress.done()
-        const data = res.data
-        return data
+        return res.data
       },
       (err: AxiosError) => {
+        const userStore = user()
+
         if (err.code !== 'ERR_CANCELED') this.showLoading && NProgress.done()
 
-        if (err.response?.status === 404) {
-          console.log('404的错误~')
+        switch (err.response?.status) {
+          case 401:
+            userStore.logoutAction()
+            elementUtils.$message('登录失效, 请重新登录')
+            router.replace('/login')
+            break
+
+          default:
+            console.log('request 404')
+            break
         }
-        return err
+        throw err.response?.data
       }
     )
   }
@@ -71,7 +84,7 @@ class Request {
       }
       return res
     } catch (err: any) {
-      return err
+      return Promise.reject(err)
     }
   }
 

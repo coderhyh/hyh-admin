@@ -1,8 +1,6 @@
 {
   "globals": {
-    "Types": true,
     "App": true,
-    "User": true,
-    "Test": true
+    "User": true
   }
 }

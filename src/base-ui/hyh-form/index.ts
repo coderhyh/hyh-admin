@@ -1,4 +1,4 @@
 import HyhForm from './src/hyh-form.vue'
-export * from './src/type'
+export * from './src/types'
 
 export default HyhForm
