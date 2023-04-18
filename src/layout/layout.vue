@@ -39,13 +39,13 @@ const headerHeight = computed(() => (winSize.value, window.innerWidth <= DEVICE.
   .el-header {
     padding: 0;
     height: 100px;
-    background: white;
+    background: var(--hyh-bg-color);
   }
 
   .el-main {
     overflow-x: hidden;
     overflow-y: scroll;
-    background: #fafafa;
+    background: var(--hyh-sub-bg);
   }
 }
 </style>

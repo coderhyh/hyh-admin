@@ -6,6 +6,15 @@ export const layout = defineStore(
     const isCollapse = ref(false)
     const tabs = ref([defaultTab])
     const winSize = ref(window.innerWidth)
+    const theme = ref<'dark' | 'light'>('light')
+
+    const toggleTheme = () => {
+      theme.value = theme.value === 'dark' ? 'light' : 'dark'
+      setBodyTheme()
+    }
+    const setBodyTheme = () => {
+      document.body.setAttribute('theme-mode', theme.value)
+    }
 
     const resize = () => (winSize.value = window.innerWidth)
     window.addEventListener('resize', resize)
@@ -32,6 +41,9 @@ export const layout = defineStore(
       isCollapse,
       tabs,
       winSize,
+      theme,
+      toggleTheme,
+      setBodyTheme,
       addTab,
       removeTab,
       removeOtherTab,
@@ -39,5 +51,5 @@ export const layout = defineStore(
       removeAllTab
     }
   },
-  { persist: { paths: ['tabs'] } }
+  { persist: { paths: ['tabs', 'theme'] } }
 )

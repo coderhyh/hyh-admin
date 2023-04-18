@@ -142,12 +142,14 @@ const dragenter = debounce(
 }
 
 .header-tabs {
+  position: relative;
   box-sizing: border-box;
   padding: 5px;
+  border-top: 1px solid var(--hyh-border-color);
   width: 100%;
   height: 40px;
-  background: #fff;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 12%);
+  background: var(--hyh-bg-color);
+  box-shadow: 0 1px 4px var(--hyh-border-color);
   font-size: 12px;
   color: #666;
   white-space: nowrap;
@@ -166,9 +168,9 @@ const dragenter = debounce(
     z-index: 999;
     margin: 0 3px;
     padding: 5px 20px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--hyh-border-color);
     border-radius: 2px;
-    background: #fff;
+    background: var(--hyh-sub-bg);
     cursor: pointer;
     transition: all 0.5s ease;
 

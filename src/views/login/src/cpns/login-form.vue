@@ -76,7 +76,7 @@ const handlerSubmit = async () => {
     font-size: 12px;
     color: #fff;
     letter-spacing: 1px;
-    transition: transform 80ms ease-in;
+    transition: transform 0.8s ease-in;
   }
 
   button:active {

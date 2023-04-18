@@ -1,0 +1,27 @@
+:root body[theme-mode='dark'] {
+  --hyh-bg-color: var(--theme-dark-bg);
+  --hyh-aside-bg: var(--theme-dark-bg);
+  --hyh-sub-bg: var(--theme-dark-sub-bg);
+  --hyh-text-color: var(--theme-light-bg);
+  --hyh-border-color: var(--theme-dark-border-color);
+
+  color: var(--hyh-text-color);
+}
+
+:root body[theme-mode='dark'] {
+  .el-breadcrumb {
+    --el-text-color-regular: var(--theme-light-bg);
+    --el-text-color-primary: #858585;
+  }
+
+  .el-menu {
+    --el-menu-bg-color: var(--theme-dark-bg) !important;
+    --el-menu-hover-bg-color: var(--hyh-sub-bg) !important;
+  }
+}
+
+:root body[theme-mode='dark'] {
+  ::-webkit-scrollbar-track {
+    background: var(--hyh-sub-bg);
+  }
+}

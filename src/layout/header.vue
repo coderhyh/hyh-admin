@@ -17,8 +17,6 @@ const isShowHeaderTabs = computed(() => (winSize.value, window.innerWidth > DEVI
 
 <style lang="less" scoped>
 .header {
-  height: 60px;
-
   section {
     display: flex;
     justify-content: space-between;

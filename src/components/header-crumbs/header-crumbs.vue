@@ -68,7 +68,7 @@ function readNodes(list: RouteRecordRaw[], target = '', arr: RouteRecordRaw[] = 
     margin-right: 20px;
     padding: 15px;
     cursor: pointer;
-    color: #666;
+    color: var(--hyh-text-color);
     transition: all 0.3s;
 
     &:hover {

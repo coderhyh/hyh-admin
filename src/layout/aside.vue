@@ -55,7 +55,7 @@ watch(size, handleResize, { immediate: true, deep: true })
   position: relative;
   max-width: 250px;
   height: 100vh;
-  background: #304156;
+  background: var(--hyh-aside-bg);
   transition: all 0.3s ease;
 
   section {
@@ -88,6 +88,7 @@ watch(size, handleResize, { immediate: true, deep: true })
     margin-top: 60px;
     border: 0 !important;
     width: 250px;
+    transition: all 0.3s ease;
   }
 
   :deep(.el-menu--collapse) {
