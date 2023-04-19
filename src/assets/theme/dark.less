@@ -3,6 +3,7 @@
   --hyh-aside-bg: var(--theme-dark-bg);
   --hyh-sub-bg: var(--theme-dark-sub-bg);
   --hyh-text-color: var(--theme-light-bg);
+  --hyh-sub-text-color: #666;
   --hyh-border-color: var(--theme-dark-border-color);
 
   color: var(--hyh-text-color);
@@ -10,13 +11,17 @@
 
 :root body[theme-mode='dark'] {
   .el-breadcrumb {
-    --el-text-color-regular: var(--theme-light-bg);
-    --el-text-color-primary: #858585;
+    --el-text-color-regular: #858585;
+    --el-text-color-primary: var(--theme-light-bg);
   }
 
   .el-menu {
     --el-menu-bg-color: var(--theme-dark-bg) !important;
     --el-menu-hover-bg-color: var(--hyh-sub-bg) !important;
+
+    .el-sub-menu__title {
+      background: var(--theme-dark-bg) !important;
+    }
   }
 }
 

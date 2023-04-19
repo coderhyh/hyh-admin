@@ -8,8 +8,9 @@
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 
 const { getUserInfoAction, token } = useStore('user')
-const router = useRouter()
+const { setBodyTheme } = useStore('layout')
 token.value && getUserInfoAction()
+setBodyTheme()
 </script>
 
 <style lang="less" scoped></style>

@@ -23,7 +23,6 @@ const logout = async () => {
 }
 
 const icon = computed(() => (theme.value === 'dark' ? 'icon-park-solid:moon' : 'material-symbols:light-mode'))
-setBodyTheme()
 </script>
 
 <style lang="less" scoped>

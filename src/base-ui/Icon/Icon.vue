@@ -14,12 +14,7 @@ const className = computed(() => {
   const { icon } = props
   return [icon || 'carbon:unknown']
 })
-const icons = [
-  'clarity:dashboard-solid',
-  'ri:treasure-map-fill',
-  'ic:baseline-support-agent',
-  'ic:round-import-contacts'
-]
+const icons = ['clarity:dashboard-solid', 'mdi:cog', 'material-symbols:settings-account-box']
 </script>
 
 <style scoped></style>

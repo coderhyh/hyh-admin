@@ -24,7 +24,7 @@ export const user = defineStore(
 
     const getUserInfoAction = async () => {
       try {
-        const res = await getUserInfo<{ code: number; userInfo: User.IUserInfo }>(userInfo.value.id!)
+        const res = await getUserInfo<{ code: number; userInfo: User.IUserInfo }>()
         userInfo.value = res.userInfo
       } catch (error) {
         return Promise.reject(error)

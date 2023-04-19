@@ -9,7 +9,7 @@ export const userLogin = <T>(data: IUserLoginParams) =>
     showLoading: true
   })
 
-export const getUserInfo = <T>(id: number) =>
+export const getUserInfo = <T>() =>
   request.post<T>({
-    url: `/user/info/${id}`
+    url: `/user/info`
   })

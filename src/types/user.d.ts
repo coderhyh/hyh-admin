@@ -10,9 +10,16 @@ declare namespace User {
     id: number
     user_name: string
     nickname: string
-    role: number
     create_time: string
     update_time: string
-    last_login_time: null | string
+    last_login_time?: any
+    role: Role
+    permission: string[]
+  }
+
+  interface Role {
+    id: number
+    role_name: string
+    role_alias: string
   }
 }

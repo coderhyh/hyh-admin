@@ -9,7 +9,7 @@
     <el-breadcrumb separator="/">
       <el-breadcrumb-item to="/">控制台</el-breadcrumb-item>
       <transition-group name="breadcrumb">
-        <el-breadcrumb-item v-for="item in breadcrumbArr" :key="item.path" :to="item.path">
+        <el-breadcrumb-item v-for="item in breadcrumbArr" :key="item.path" :to="item.children ? '' : item.path">
           {{ item.meta?.name }}
         </el-breadcrumb-item>
       </transition-group>

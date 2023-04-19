@@ -17,6 +17,25 @@ export const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: '/system',
+        name: 'System',
+        meta: {
+          name: '系统管理',
+          icon: 'mdi:cog'
+        },
+        children: [
+          {
+            path: '/role',
+            name: 'Role',
+            component: () => import('~/views/system/role'),
+            meta: {
+              name: '角色管理',
+              icon: 'material-symbols:settings-account-box'
+            }
+          }
+        ]
+      },
+      {
         path: '/paper',
         name: 'Paper',
         component: () => import('~/views/paper'),

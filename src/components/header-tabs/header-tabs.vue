@@ -67,7 +67,6 @@ const rightClick = (e: { x: number; y: number }, path: string) => {
   left.value = e.x + 5
   top.value = e.y + 5
   visible.value = true
-  console.log(visible.value)
 }
 const closeMenu = () => {
   visible.value = false
@@ -142,14 +141,13 @@ const dragenter = debounce(
 }
 
 .header-tabs {
-  position: relative;
   box-sizing: border-box;
   padding: 5px;
   border-top: 1px solid var(--hyh-border-color);
+  border-bottom: 1px solid var(--hyh-border-color);
   width: 100%;
   height: 40px;
   background: var(--hyh-bg-color);
-  box-shadow: 0 1px 4px var(--hyh-border-color);
   font-size: 12px;
   color: #666;
   white-space: nowrap;
@@ -224,19 +222,20 @@ const dragenter = debounce(
     margin: 0;
     padding: 5px 0;
     border-radius: 4px;
-    background: #fff;
-    box-shadow: 2px 2px 3px 0 rgb(0 0 0 / 30%);
+    background: var(--hyh-bg-color);
+    box-shadow: var(--el-box-shadow-light);
     font-weight: 400;
     font-size: 12px;
-    color: #333;
+    color: var(--hyh-sub-text-color);
 
     li {
       margin: 0;
       padding: 7px 16px;
       cursor: pointer;
-
+      transition: all 0.3s ease;
+      // eee
       &:hover {
-        background: #eee;
+        background: var(--hyh-sub-bg);
       }
     }
   }
