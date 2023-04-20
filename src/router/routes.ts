@@ -25,11 +25,11 @@ export const routes: RouteRecordRaw[] = [
         },
         children: [
           {
-            path: 'role',
-            name: 'Role',
-            component: () => import('~/views/system/role'),
+            path: 'user-manage',
+            name: 'UserManage',
+            component: () => import('~/views/system/user-manage'),
             meta: {
-              name: '角色管理',
+              name: '用户管理',
               icon: 'material-symbols:settings-account-box'
             }
           }

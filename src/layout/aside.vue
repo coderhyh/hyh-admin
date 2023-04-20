@@ -4,7 +4,6 @@
       <img src="/favicon.ico" alt="logo" />
       <h2 v-if="!isCollapse && size > 500" class="title">umabs</h2>
     </section>
-    {{ currentPath }}
     <el-menu
       router
       :default-active="currentPath"

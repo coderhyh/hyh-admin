@@ -1,4 +1,4 @@
-import { getUserInfo, userExit, userLogin } from '~/api/user'
+import { getUserInfo, getUserList, userExit, userLogin } from '~/api/user'
 import { IUserLoginParams } from '~/api/user/types'
 
 import { defaultTab } from './layout'
@@ -40,15 +40,32 @@ export const user = defineStore(
       }
     }
 
+    const userList = ref<User.IUserInfo[]>([])
+    const fetchUserList = async (page?: { currentPage: number; pageSize: number }) => {
+      try {
+        const res: { code: number; total: number; userList: User.IUserInfo[] } = await getUserList({
+          pageNo: page?.currentPage ?? 1,
+          pageSize: page?.pageSize ?? 20
+        })
+        userList.value = res.userList
+        return [res.total, res.userList]
+      } catch (error) {
+        console.log(error)
+        return [0, []]
+      }
+    }
+
     return {
       token,
       userInfo,
       loginAction,
       logoutAction,
-      getUserInfoAction
+      getUserInfoAction,
+      userList,
+      fetchUserList
     }
   },
   {
-    persist: true
+    persist: { paths: ['token', 'userInfo'] }
   }
 )

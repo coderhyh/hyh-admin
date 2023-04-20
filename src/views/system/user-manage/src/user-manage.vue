@@ -1,5 +1,5 @@
 <template>
-  <div class="role">
+  <div class="user-manage">
     <PageForm :form-config="formConfig" />
     <PageTable mt-20px :table-config="tableConfig" :fetch-fn="fetchUserList" />
   </div>
@@ -10,10 +10,10 @@ import PageTable from '~/components/page-table/page-table.vue'
 
 import { formConfig, tableConfig } from './config'
 
-const { fetchUserList } = useStore('role')
+const { fetchUserList } = useStore('user')
 </script>
 
 <style scoped>
-.role {
+.user-manage {
 }
 </style>
