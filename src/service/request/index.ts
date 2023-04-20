@@ -45,20 +45,25 @@ class Request {
         this.showLoading && NProgress.done()
         return res.data
       },
-      (err: AxiosError) => {
+      async (err: AxiosError) => {
         const userStore = user()
 
         if (err.code !== 'ERR_CANCELED') this.showLoading && NProgress.done()
 
         switch (err.response?.status) {
           case 401:
-            userStore.logoutAction()
+            await userStore.logoutAction(false)
             elementUtils.$message('登录失效, 请重新登录')
             router.replace('/login')
             break
+          case 403:
+            console.log('权限不足')
+            break
+          case 404:
+            console.log('request 404')
+            break
 
           default:
-            console.log('request 404')
             break
         }
         throw err.response?.data

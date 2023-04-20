@@ -18,7 +18,7 @@ const { logoutAction, userInfo } = useStore('user')
 const { theme, toggleTheme, setBodyTheme } = useStore('layout')
 const router = useRouter()
 const logout = async () => {
-  logoutAction()
+  await logoutAction()
   router.replace('/login')
 }
 

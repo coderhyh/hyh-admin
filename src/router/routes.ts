@@ -8,7 +8,7 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('~/layout/layout.vue'),
     children: [
       {
-        path: '/',
+        path: '',
         name: 'Index',
         component: () => import('~/views/index'),
         meta: {
@@ -17,7 +17,7 @@ export const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: '/system',
+        path: 'system',
         name: 'System',
         meta: {
           name: '系统管理',
@@ -25,7 +25,7 @@ export const routes: RouteRecordRaw[] = [
         },
         children: [
           {
-            path: '/role',
+            path: 'role',
             name: 'Role',
             component: () => import('~/views/system/role'),
             meta: {
@@ -36,7 +36,7 @@ export const routes: RouteRecordRaw[] = [
         ]
       },
       {
-        path: '/paper',
+        path: 'paper',
         name: 'Paper',
         component: () => import('~/views/paper'),
         meta: {
@@ -45,7 +45,7 @@ export const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: '/clinical-us',
+        path: 'clinical-us',
         name: 'Clinical-US',
         component: () => import('~/views/clinical-us'),
         meta: {
@@ -54,7 +54,7 @@ export const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: '/clinical-eu',
+        path: 'clinical-eu',
         name: 'Clinical-EU',
         component: () => import('~/views/clinical-eu'),
         meta: {

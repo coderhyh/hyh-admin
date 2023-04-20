@@ -8,12 +8,15 @@ export interface ITableConfig {
   tableEvent?: defaultEventType
   showSelectColumn?: boolean
   showIndexColumn?: boolean
+  showFooter?: boolean
+  columnUnifyConfig?: InstanceType<typeof ElTableColumn>['$props']
   listDataConfig: ITableListData[]
 }
 
 export interface ITableListData {
   slotName?: string
   customSlotName?: string
+  formatter?: (row: any) => string
   prop?: string
   columnLabel: string
   columnProps?: InstanceType<typeof ElTableColumn>['$props']

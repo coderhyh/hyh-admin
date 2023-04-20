@@ -1,9 +1,12 @@
-import { getUserInfo, userLogin } from '~/api/user'
+import { getUserInfo, userExit, userLogin } from '~/api/user'
 import { IUserLoginParams } from '~/api/user/types'
+
+import { defaultTab } from './layout'
 
 export const user = defineStore(
   'user',
   () => {
+    const { tabs } = useStore('layout')
     const token = ref<string>()
     const userInfo = ref<Partial<User.IUserInfo>>({})
 
@@ -17,9 +20,15 @@ export const user = defineStore(
       }
     }
 
-    const logoutAction = async () => {
-      userInfo.value = {}
-      token.value = ''
+    const logoutAction = async (flag = true) => {
+      try {
+        flag && (await userExit<User.IUserExit>())
+        tabs.value = [defaultTab]
+        userInfo.value = {}
+        token.value = ''
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     const getUserInfoAction = async () => {

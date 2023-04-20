@@ -49,4 +49,7 @@ declare module '@vue/runtime-core' {
     Test: typeof import('./components/test/src/test.vue')['default']
     TreeMenu: typeof import('./components/tree-menu/tree-menu.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }

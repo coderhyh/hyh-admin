@@ -4,9 +4,10 @@
       <img src="/favicon.ico" alt="logo" />
       <h2 v-if="!isCollapse && size > 500" class="title">umabs</h2>
     </section>
+    {{ currentPath }}
     <el-menu
       router
-      :default-active="route.path"
+      :default-active="currentPath"
       :collapse="isCollapse"
       background-color="#304156"
       text-color="#bfcbd9"
@@ -25,6 +26,7 @@ const menuList = ref(routes[0].children)
 const { isCollapse, winSize: size } = useStore('layout')
 
 const route = useRoute()
+const currentPath = computed(() => route.fullPath.slice(route.fullPath.lastIndexOf('/') + 1))
 
 const menuSelect = () => {
   if (window.innerWidth <= DEVICE.mobile) {
@@ -82,6 +84,10 @@ watch(size, handleResize, { immediate: true, deep: true })
       width: 34px;
       height: 34px;
     }
+  }
+
+  :deep(.el-menu) {
+    transition: all 0.3s ease;
   }
 
   :deep(.el-menu--vertical) {

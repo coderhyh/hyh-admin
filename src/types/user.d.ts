@@ -6,13 +6,18 @@ declare namespace User {
     userInfo: UserInfo
   }
 
+  interface IUserExit {
+    code: string
+    message: string
+  }
+
   interface IUserInfo {
     id: number
     user_name: string
     nickname: string
     create_time: string
     update_time: string
-    last_login_time?: any
+    last_login_time?: string
     role: Role
     permission: string[]
   }

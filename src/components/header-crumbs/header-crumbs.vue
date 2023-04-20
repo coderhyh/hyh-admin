@@ -62,6 +62,7 @@ function readNodes(list: RouteRecordRaw[], target = '', arr: RouteRecordRaw[] = 
 .crumbs {
   display: flex;
   align-items: center;
+  min-width: 330px;
   height: 60px;
 
   &-icon {

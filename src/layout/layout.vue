@@ -7,7 +7,7 @@
       <el-header :style="{ height: headerHeight }" style="transition: all 0.2s ease">
         <Header />
       </el-header>
-      <el-main>
+      <el-main id="layout-main">
         <router-view v-slot="{ Component, route }">
           <transition name="fade-transform" mode="out-in">
             <keep-alive :include="tabs.map((i) => i.path.slice(1))">

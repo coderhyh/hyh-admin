@@ -1,4 +1,4 @@
-const defaultTab: App.Tab = { title: '控制台', path: '/' }
+export const defaultTab: App.Tab = { title: '控制台', path: '/' }
 
 export const layout = defineStore(
   'layout',

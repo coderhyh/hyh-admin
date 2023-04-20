@@ -27,7 +27,7 @@ export default defineConfig({
         'vue',
         'pinia',
         'vue-router',
-        { '~/plugins/pinia-auto-refs': ['useStore'] },
+        { '~/plugins/piniaAutoRefs': ['useStore'] },
         { '~/hooks': ['useVModel'] }
       ],
       dts: 'src/auto-imports.d.ts',
