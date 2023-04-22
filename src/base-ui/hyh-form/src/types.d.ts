@@ -1,4 +1,4 @@
-import type { ElForm, ElCol, ElInput, ElSelect, ElRow } from 'element-plus'
+import type { ElForm, ElCol, ElInput, ElSelect, ElRow, FormRules } from 'element-plus'
 
 export interface IFormConfig {
   labelPosition?: 'left' | 'right' | 'top'
@@ -15,6 +15,7 @@ export interface IFormDataList {
   type: 'input' | 'select'
   modelValue: string
   label?: string
+  rules?: FormRules['key']
   colProps?: InstanceType<typeof ElCol>['$props']
   isDefaultCol?: boolean
   selectProps?: {

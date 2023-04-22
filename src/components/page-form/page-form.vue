@@ -19,10 +19,7 @@ const emit = defineEmits<{
   (e: 'queryClick', formData: { [k: string]: string }): void
 }>()
 
-const formDataOrigin = props.formConfig.formDataList.reduce<{ [k: string]: string }>(
-  (origin, item) => ((origin[item.modelValue] = ''), origin),
-  {}
-)
+const formDataOrigin = useFormDataOrigin(props.formConfig.formDataList)
 const formData = ref(formDataOrigin)
 
 const handleResetClick = () => {

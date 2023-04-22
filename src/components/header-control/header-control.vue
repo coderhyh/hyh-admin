@@ -15,11 +15,14 @@
 
 <script setup lang="ts">
 const { logoutAction, userInfo } = useStore('user')
-const { theme, toggleTheme, setBodyTheme } = useStore('layout')
+const { theme, toggleTheme } = useStore('layout')
 const router = useRouter()
+
+const global = getCurrentInstance()?.proxy
 const logout = async () => {
   await logoutAction()
   router.replace('/login')
+  global?.$message('退出成功', 'success')
 }
 
 const icon = computed(() => (theme.value === 'dark' ? 'icon-park-solid:moon' : 'material-symbols:light-mode'))

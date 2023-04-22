@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 
 import Vue from '@vitejs/plugin-vue'
+import fs from 'fs'
 import { resolve } from 'path'
 import Unocss from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -28,7 +29,12 @@ export default defineConfig({
         'pinia',
         'vue-router',
         { '~/plugins/piniaAutoRefs': ['useStore'] },
-        { '~/hooks': ['useVModel'] }
+        {
+          '~/hooks': fs
+            .readdirSync(resolve(__dirname, './src/hooks'))
+            .filter((dir) => dir !== 'index.ts')
+            .map((r) => r.split('.')[0])
+        }
       ],
       dts: 'src/auto-imports.d.ts',
       resolvers: [ElementPlusResolver()],

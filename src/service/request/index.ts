@@ -66,7 +66,7 @@ class Request {
           default:
             break
         }
-        throw err.response?.data
+        throw err
       }
     )
   }

@@ -11,33 +11,27 @@ export const user = defineStore(
     const userInfo = ref<Partial<User.IUserInfo>>({})
 
     const loginAction = async (user: IUserLoginParams) => {
-      try {
+      await useFetchTryCatch(async () => {
         const res = await userLogin<User.IUserLoginSuccess>(user)
         token.value = res.token
         userInfo.value = res.userInfo
-      } catch (error) {
-        return Promise.reject(error)
-      }
+      })
     }
 
     const logoutAction = async (flag = true) => {
-      try {
+      await useFetchTryCatch(async () => {
         flag && (await userExit<User.IUserExit>())
         tabs.value = [defaultTab]
         userInfo.value = {}
         token.value = ''
-      } catch (error) {
-        console.log(error)
-      }
+      })
     }
 
     const getUserInfoAction = async () => {
-      try {
+      await useFetchTryCatch(async () => {
         const res = await getUserInfo<{ code: number; userInfo: User.IUserInfo }>()
         userInfo.value = res.userInfo
-      } catch (error) {
-        return Promise.reject(error)
-      }
+      })
     }
 
     const userList = ref<User.IUserInfo[]>([])

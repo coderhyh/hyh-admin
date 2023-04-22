@@ -1,4 +1,4 @@
-export const defaultTab: App.Tab = { title: '控制台', path: '/' }
+export const defaultTab: App.ITab = { title: '控制台', path: '/' }
 
 export const layout = defineStore(
   'layout',
@@ -19,7 +19,7 @@ export const layout = defineStore(
     const resize = () => (winSize.value = window.innerWidth)
     window.addEventListener('resize', resize)
 
-    const addTab = (tab: App.Tab = defaultTab) => {
+    const addTab = (tab: App.ITab = defaultTab) => {
       if (tabs.value.some((t) => t.path === tab.path)) return
       tabs.value.push(tab)
     }

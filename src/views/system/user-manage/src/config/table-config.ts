@@ -3,7 +3,6 @@ import { utcToLocale } from '~/utils'
 
 export const tableConfig: ITableConfig = {
   title: '用户管理',
-  showSelectColumn: true,
   showFooter: true,
   tableProps: {
     stripe: true,
@@ -23,7 +22,7 @@ export const tableConfig: ITableConfig = {
       }
     },
     {
-      prop: 'user_name',
+      prop: 'username',
       columnLabel: '用户名'
     },
     {

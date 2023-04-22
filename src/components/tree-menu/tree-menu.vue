@@ -2,13 +2,13 @@
   <template v-for="menu in menuList" :key="menu.path">
     <el-sub-menu v-if="menu.children && menu.children.length > 0" :index="menu.path">
       <template #title>
-        <Icon :icon="menu.meta?.icon" size="30" />
+        <Icon :icon="menu.meta?.icon" size="30" style="margin-right: 10px" />
         <span>{{ menu.meta?.name }}</span>
       </template>
       <TreeMenu :menu-list="menu.children"></TreeMenu>
     </el-sub-menu>
     <el-menu-item v-else :index="menu.path" :route="menu">
-      <Icon :icon="menu.meta?.icon" size="30" />
+      <Icon :icon="menu.meta?.icon" size="30" style="margin-right: 10px" />
       <template #title>{{ menu.meta?.name }}</template>
     </el-menu-item>
   </template>

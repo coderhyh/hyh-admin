@@ -4,7 +4,7 @@
       <h1>Log in</h1>
       <span>or use your account</span>
     </section>
-    <HyhForm v-bind="{ formConfig, formRules }" ref="formRef" v-model="formData" @on-submit="handlerSubmit">
+    <HyhForm v-bind="{ formConfig }" ref="formRef" v-model="formData" @on-submit="handlerSubmit">
       <template #footer>
         <button type="submit" @click="handlerSubmit">Log in</button>
       </template>
@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import type HyhForm from '~/base-ui/hyh-form'
 
-import { formConfig, formRules } from '../config'
+import { formConfig } from '../config'
 
 const global = getCurrentInstance()?.proxy
 const { loginAction } = useStore('user')
@@ -31,14 +31,14 @@ const formData = ref({
 const handlerSubmit = async () => {
   const form = formRef.value?.getFormRef()
 
-  const validateRes = await form?.validate()
+  const validateRes = await form?.validate(() => {})
   if (validateRes) {
-    try {
+    useFetchTryCatch(async () => {
       await loginAction(formData.value)
       router.replace('/')
-    } catch (error) {
-      global?.$message((<{ message: string }>error).message, 'error')
-    }
+    }).catch((error: any) => {
+      global?.$message(error.response.data.message, 'error')
+    })
   }
 }
 </script>

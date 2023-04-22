@@ -41,7 +41,7 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('~/views/paper'),
         meta: {
           name: '文献',
-          icon: 'clarity:dashboard-solid'
+          icon: 'pixelarticons:book-open'
         }
       },
       {
@@ -50,7 +50,7 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('~/views/clinical-us'),
         meta: {
           name: '美国临床',
-          icon: 'clarity:dashboard-solid'
+          icon: 'medical-icon:i-physical-therapy'
         }
       },
       {
@@ -59,7 +59,7 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('~/views/clinical-eu'),
         meta: {
           name: '欧洲临床',
-          icon: 'clarity:dashboard-solid'
+          icon: 'medical-icon:i-physical-therapy'
         }
       }
     ]

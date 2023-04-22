@@ -13,7 +13,7 @@ declare namespace User {
 
   interface IUserInfo {
     id: number
-    user_name: string
+    username: string
     nickname: string
     create_time: string
     update_time: string

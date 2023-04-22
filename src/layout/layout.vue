@@ -4,13 +4,13 @@
       <Aside />
     </el-aside>
     <el-container style="min-width: 375px">
-      <el-header :style="{ height: headerHeight }" style="transition: all 0.2s ease">
+      <el-header id="layout-header" :style="{ height: headerHeight }" style="transition: all 0.2s ease">
         <Header />
       </el-header>
       <el-main id="layout-main">
         <router-view v-slot="{ Component, route }">
           <transition name="fade-transform" mode="out-in">
-            <keep-alive :include="tabs.map((i) => i.path.slice(1))">
+            <keep-alive :include="tabs.map((i) => i.path.slice(i.path.lastIndexOf('/') + 1))">
               <component :is="Component" :key="route.name"></component>
             </keep-alive>
           </transition>

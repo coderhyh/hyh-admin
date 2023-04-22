@@ -12,11 +12,17 @@
       ref="tableRef"
       v-loading="isLoading"
       :data="tableData"
+      highlight-current-row
       border
       v-bind="tableConfig.tableProps"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column v-if="tableConfig.showSelectColumn" type="selection" align="center" width="60"></el-table-column>
+      <el-table-column
+        v-if="isShowSelectColumn || tableConfig.showSelectColumn"
+        type="selection"
+        align="center"
+        width="60"
+      ></el-table-column>
       <el-table-column
         v-if="tableConfig.showIndexColumn"
         type="index"
@@ -43,11 +49,11 @@
     <div v-if="tableConfig.showFooter" class="footer">
       <slot name="footer">
         <el-pagination
-          v-model:current-page="page.currentPage"
-          v-model:page-size="page.pageSize"
+          v-model:current-page="_page.currentPage"
+          v-model:page-size="_page.pageSize"
           :page-sizes="[20, 40]"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="pageTotal ?? 0"
+          :total="_page.pageTotal ?? 0"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -61,15 +67,31 @@ import { ElTable } from 'element-plus'
 
 import { ITableConfig } from './type'
 
-defineProps<{
-  tableConfig: ITableConfig
-  tableData: any[]
-  isLoading?: boolean
-  pageTotal?: number
-}>()
+const props = withDefaults(
+  defineProps<{
+    tableConfig: ITableConfig
+    tableData: any[]
+    isShowSelectColumn?: boolean
+    isLoading?: boolean
+    page?: {
+      pageTotal: number
+      currentPage: number
+      pageSize: number
+    }
+  }>(),
+  {
+    isLoading: false,
+    page: () => ({
+      pageTotal: 0,
+      currentPage: 1,
+      pageSize: 20
+    })
+  }
+)
 const emit = defineEmits<{
   (e: 'selectionChange', value: any): void
-  (e: 'onPageChange', value: { currentPage: number; pageSize: number }): void
+  (e: 'onPageChange'): void
+  (e: 'update:page', value: typeof props['page']): void
 }>()
 
 const tableRef = ref<InstanceType<typeof ElTable>>()
@@ -80,15 +102,12 @@ const handleSelectionChange = (value: any) => {
   emit('selectionChange', value)
 }
 
-const page = ref({
-  currentPage: 1,
-  pageSize: 20
-})
-const handleCurrentChange = (e: any) => {
-  emit('onPageChange', page.value)
+const _page = useVModel(props, 'page', emit)
+const handleCurrentChange = (page: number) => {
+  emit('onPageChange')
 }
-const handleSizeChange = (e: any) => {
-  emit('onPageChange', page.value)
+const handleSizeChange = (size: number) => {
+  emit('onPageChange')
 }
 
 defineExpose({ doLayout })

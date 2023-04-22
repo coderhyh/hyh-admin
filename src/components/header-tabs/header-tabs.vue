@@ -72,7 +72,7 @@ const closeMenu = () => {
   visible.value = false
 }
 const tabRemove = (path: string = clickPath) => {
-  const index = tabs.value.findIndex((i: App.Tab) => i.path === path)
+  const index = tabs.value.findIndex((i: App.ITab) => i.path === path)
   removeTab(path)
   if (route.path === path) {
     const len = tabs.value.length - 1
@@ -86,7 +86,7 @@ const tabRemoveOther = () => {
 }
 const tabRemoveRight = () => {
   removeRightTab(clickPath)
-  if (tabs.value.every((i: App.Tab) => i.path !== route.path)) {
+  if (tabs.value.every((i: App.ITab) => i.path !== route.path)) {
     tabClick(clickPath)
   }
 }

@@ -5,12 +5,15 @@ export const useVModel = <R = any>(
 ) => {
   return computed<R>({
     get() {
-      return new Proxy(props[key], {
-        set(obj, name, val) {
-          emit(`update:${String(key)}`, { ...obj, [name]: val })
-          return true
-        }
-      })
+      if (typeof props[key] === 'object') {
+        return new Proxy(props[key], {
+          set(obj, name, val) {
+            emit(`update:${String(key)}`, { ...obj, [name]: val })
+            return true
+          }
+        })
+      }
+      return props[key]
     },
     set(val) {
       emit(`update:${String(key)}`, val)

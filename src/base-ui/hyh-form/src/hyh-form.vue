@@ -8,7 +8,7 @@
       :rules="formRules"
       @submit.prevent="onSubmit"
     >
-      <el-row :gutter="formConfig.rowGutter ?? 20" v-bind="formConfig.rowProps" class="flex flex-wrap">
+      <el-row :gutter="formConfig.rowGutter ?? 20" v-bind="formConfig.rowProps">
         <template v-for="item in formConfig.formDataList" :key="item.label">
           <el-col
             v-bind="{ ...(isDefaultCol(item.isDefaultCol) && defaultCol), ...formConfig.colAllProps, ...item.colProps }"
@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance, FormRules } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 
 import { IFormConfig } from './types'
 
@@ -57,7 +57,6 @@ type ModelValue = { [k: string]: any }
 const props = defineProps<{
   formConfig: IFormConfig
   modelValue: ModelValue
-  formRules?: FormRules
 }>()
 
 const emit = defineEmits<{
@@ -77,6 +76,9 @@ const defaultCol = {
 }
 
 const isDefaultCol = (flag: boolean | undefined) => (flag === undefined ? true : flag === true ? true : false)
+const formRules = computed(() =>
+  props.formConfig.formDataList.reduce<App.IDefaultObject>((o, e) => ((o[e.modelValue] = e.rules), o), {})
+)
 
 const formRef = ref<FormInstance>()
 

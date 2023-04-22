@@ -1,6 +1,7 @@
 {
   "globals": {
     "App": true,
+    "Role": true,
     "User": true
   }
 }

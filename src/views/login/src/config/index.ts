@@ -1,5 +1,3 @@
-import { FormRules } from 'element-plus'
-
 import { IFormConfig } from '~/base-ui/hyh-form'
 
 export const formConfig: IFormConfig = {
@@ -19,7 +17,8 @@ export const formConfig: IFormConfig = {
         config: {
           placeholder: '请输入账号'
         }
-      }
+      },
+      rules: [{ required: true }]
     },
     {
       type: 'input',
@@ -31,12 +30,8 @@ export const formConfig: IFormConfig = {
           type: 'password',
           showPassword: true
         }
-      }
+      },
+      rules: [{ required: true }]
     }
   ]
-}
-
-export const formRules: FormRules = {
-  userName: [{ required: true }],
-  password: [{ required: true }]
 }

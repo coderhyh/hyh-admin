@@ -4,7 +4,7 @@ import Request from './request'
 
 const Request1 = new Request({
   baseURL: import.meta.env.VITE_BASE_URL,
-  timeout: 10000,
+  timeout: 1000 * 60,
   interceptors: {
     requestInterceptor: (config) => {
       const userStore = user()

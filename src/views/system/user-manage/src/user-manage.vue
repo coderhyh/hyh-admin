@@ -1,19 +1,94 @@
 <template>
   <div class="user-manage">
     <PageForm :form-config="formConfig" />
-    <PageTable mt-20px :table-config="tableConfig" :fetch-fn="fetchUserList" />
+    <PageTable
+      ref="pageTableRef"
+      mt-20px
+      :table-config="tableConfig"
+      :fetch-fn="fetchUserList"
+      @on-delete-click="handleDeleteClick"
+      @on-edit-click="handleEditClick"
+      @on-create-click="handleCreateClick"
+    />
+    <PageModal
+      v-model:show="isShowDialog"
+      v-model:form-data="modalFormData"
+      :title="title"
+      @on-submit="handleModalSubmit"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { getRoleTypeList } from '~/api/role'
+import { createUser, deleteUser, updateUserInfo } from '~/api/user'
+import { IFormConfig } from '~/base-ui/hyh-form'
 import PageTable from '~/components/page-table/page-table.vue'
 
-import { formConfig, tableConfig } from './config'
+import { formConfig, modalFormCreateConfig, modalFormEditConfig, tableConfig } from './config'
+
+const { title, handleType, isShowDialog, modalFormData, handleClick } = usePageModal()
 
 const { fetchUserList } = useStore('user')
+// 请求角色
+const modalConfig: { [k in 'create' | 'edit']: IFormConfig } = {
+  create: modalFormCreateConfig([]),
+  edit: modalFormEditConfig([])
+}
+getRoleTypeList<{ code: number; roleTypeList: Role.IRoleTypeList[] }>().then((res) => {
+  const options = res.roleTypeList.map((e) => ({ label: String(e.role_name), value: String(e.id) }))
+  modalConfig.create = modalFormCreateConfig(options)
+  modalConfig.edit = modalFormEditConfig(options)
+})
+
+// 删除用户
+const pageTableRef = ref<InstanceType<typeof PageTable>>()
+const global = getCurrentInstance()?.proxy
+const handleDeleteClick = async (row: User.IUserInfo) => {
+  useFetchTryCatch(async () => {
+    const res: App.IDefaultResult = await deleteUser(row.id)
+    global?.$message(res.message, res.code === 200 ? 'success' : 'error')
+    pageTableRef.value?.fetchData()
+  })
+}
+// modal
+const handleEditClick = (row: User.IUserInfo) => {
+  handleClick({
+    type: 'edit',
+    config: modalConfig.edit,
+    title: '修改用户',
+    formData: {
+      id: String(row.id),
+      username: row.username,
+      nickname: row.nickname,
+      role: String(row.role.id)
+    }
+  })
+}
+const handleCreateClick = () => {
+  handleClick({
+    type: 'create',
+    config: modalConfig.create,
+    title: '新建用户',
+    formData: useFormDataOrigin(modalConfig.create.formDataList)
+  })
+}
+
+const handleModalSubmit = async () => {
+  useFetchTryCatch(async () => {
+    let res: App.IDefaultObject = {}
+    if (handleType.value === 'edit') {
+      const { id, username, nickname, role } = modalFormData.value
+      res = await updateUserInfo({ userId: id, username, nickname, role })
+    } else if (handleType.value === 'create') {
+      const { username, password, nickname, role } = modalFormData.value
+      res = await createUser({ username, password, nickname, role })
+    }
+
+    global?.$message(res.message, res.code === 200 ? 'success' : 'error')
+    pageTableRef.value?.fetchData()
+  })
+}
 </script>
 
-<style scoped>
-.user-manage {
-}
-</style>
+<style scoped></style>

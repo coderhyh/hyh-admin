@@ -1,6 +1,12 @@
 import request from '~/service'
 
-import { IGetUserListParams, IUserLoginParams } from './types'
+import { ICreateUserParams, IGetUserListParams, IUpdateUserParams, IUserLoginParams } from './types'
+
+export const createUser = <T>(data: ICreateUserParams) =>
+  request.post<T>({
+    url: '/user/create',
+    data
+  })
 
 export const userLogin = <T>(data: IUserLoginParams) =>
   request.post<T>({
@@ -10,7 +16,7 @@ export const userLogin = <T>(data: IUserLoginParams) =>
   })
 
 export const getUserInfo = <T>() =>
-  request.post<T>({
+  request.get<T>({
     url: `/user/info`
   })
 
@@ -21,3 +27,8 @@ export const getUserList = <T>(data: IGetUserListParams) =>
   })
 
 export const userExit = <T>() => request.delete<T>({ url: '/user/exit' })
+
+export const deleteUser = <T>(userId: number) => request.delete<T>({ url: `/user/${userId}`, showLoading: true })
+
+export const updateUserInfo = <T>(data: IUpdateUserParams) =>
+  request.patch<T>({ url: `/user/${data.userId}`, data, showLoading: true })
