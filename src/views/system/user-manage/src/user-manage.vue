@@ -1,6 +1,6 @@
 <template>
   <div class="user-manage">
-    <PageForm :form-config="formConfig" @query-click="handleQueryClick" />
+    <PageForm :form-config="formConfig" @query-click="handleQueryClick" @form-data-change="handleFormDataChange" />
     <PageTable
       ref="pageTableRef"
       mt-20px
@@ -30,11 +30,14 @@ import { formConfig, modalFormCreateConfig, modalFormEditConfig, tableConfig } f
 
 const { title, handleType, isShowDialog, modalFormData, handleClick } = usePageModal()
 
-const { fetchUserList } = useStore('user')
+const { fetchUserList, pageParams } = useStore('user')
 
 // 检索
-const handleQueryClick = (formData: App.IDefaultObject) => {
-  pageTableRef.value?.fetchData((page) => fetchUserList({ ...page, queryCondition: <any>formData }))
+const handleQueryClick = () => {
+  pageTableRef.value?.fetchData()
+}
+const handleFormDataChange = ({ id, username, nickname }: App.IDefaultObject) => {
+  pageParams.value.queryCondition = { id, username, nickname }
 }
 
 // 请求角色

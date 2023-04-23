@@ -55,7 +55,7 @@
           v-model:page-size="_page.pageSize"
           :page-sizes="[20, 40]"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="_page.pageTotal ?? 0"
+          :total="pageTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -75,8 +75,8 @@ const props = withDefaults(
     tableData: any[]
     isShowSelectColumn?: boolean
     isLoading?: boolean
+    pageTotal?: number
     page?: {
-      pageTotal: number
       pageNo: number
       pageSize: number
       order: 'ASC' | 'DESC'
@@ -85,12 +85,12 @@ const props = withDefaults(
   }>(),
   {
     isLoading: false,
+    pageTotal: 0,
     page: () => ({
-      pageTotal: 0,
       pageNo: 1,
       pageSize: 20,
       order: 'ASC',
-      orderBy: 'id'
+      orderBy: ''
     })
   }
 )
@@ -113,7 +113,7 @@ const handleSortChange = (val: { column: any; prop: string; order: 'ascending' |
   emit('onSortChange')
 }
 
-const _page = useVModel(props, 'page', emit)
+const _page = useVModel<typeof props['page']>(props, 'page', emit)
 const handleCurrentChange = (page: number) => {
   emit('onPageChange')
 }

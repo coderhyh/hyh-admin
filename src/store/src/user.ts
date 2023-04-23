@@ -32,30 +32,24 @@ export const user = defineStore(
       })
 
     const userList = ref<User.IUserInfo[]>([])
-    const pageParams = ref({
+    const pageParams = ref<IGetUserListParams>({
       pageNo: 1,
       pageSize: 20,
       orderBy: 'id',
-      order: 'ASC'
+      order: 'ASC',
+      queryCondition: { id: '', username: '', nickname: '' }
     })
-    const fetchUserList = async (page?: Partial<IGetUserListParams>) => {
+    const pageTotal = ref(0)
+    const fetchUserList = async () => {
       try {
-        const res: { code: number; total: number; userList: User.IUserInfo[] } = await getUserList({
-          pageNo: page?.pageNo ?? 1,
-          pageSize: page?.pageSize ?? 20,
-          orderBy: page?.orderBy ?? 'id',
-          order: page?.order ?? 'ASC',
-          queryCondition: {
-            id: page?.queryCondition?.id ?? '',
-            username: page?.queryCondition?.username ?? '',
-            nickname: page?.queryCondition?.nickname ?? ''
-          }
-        })
+        type resType = { code: number; total: number; userList: User.IUserInfo[] }
+        const res: resType = await getUserList(pageParams.value)
         userList.value = res.userList
-        return [res.total, res.userList]
+        pageTotal.value = res.total
+        return res.userList
       } catch (error) {
         console.log(error)
-        return [0, []]
+        return []
       }
     }
 
@@ -67,6 +61,7 @@ export const user = defineStore(
       getUserInfoAction,
       userList,
       pageParams,
+      pageTotal,
       fetchUserList
     }
   },

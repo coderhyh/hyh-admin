@@ -2,12 +2,13 @@
   <div class="page-table">
     <HyhTable
       ref="hyhTableRef"
-      v-model:page="page"
+      v-model:page="pageParams"
       v-bind="{
         tableConfig,
         tableData: fetchFn ? _tableData : tableData,
         isLoading,
-        isShowSelectColumn
+        isShowSelectColumn,
+        pageTotal
       }"
       @on-page-change="handlePageChange"
       @on-sort-change="handlePageChange"
@@ -80,24 +81,16 @@ watch(winSize, () => {
   hyhTableRef.value!.doLayout()
 })
 // 请求数据
-type pageType = InstanceType<typeof HyhTable>['$props']['page']
-const page = ref<pageType>({
-  pageTotal: 0,
-  pageNo: 1,
-  pageSize: 20,
-  orderBy: 'id',
-  order: 'ASC'
-})
+const { pageParams, pageTotal } = useStore('user')
 const _tableData = ref<any[]>([])
 const handlePageChange = async () => {
   await fetchData()
   document.querySelector('#layout-main')?.scrollTo(0, 0)
 }
-const fetchData = async (fn?: (page: Omit<NonNullable<pageType>, 'pageTotal'>) => Promise<any[]>) => {
+const fetchData = async () => {
   if (props.fetchFn) {
     showLoading()
-    const [total, list] = await (fn ? fn(page.value!) : props.fetchFn(page.value))
-    page.value!.pageTotal = total
+    const list = await props.fetchFn()
     _tableData.value = list
     selectUsers.value = []
     hideLoading()
