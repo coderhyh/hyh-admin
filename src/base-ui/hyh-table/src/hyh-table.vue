@@ -16,6 +16,7 @@
       border
       v-bind="tableConfig.tableProps"
       @selection-change="handleSelectionChange"
+      @sort-change="handleSortChange"
     >
       <el-table-column
         v-if="isShowSelectColumn || tableConfig.showSelectColumn"
@@ -37,6 +38,7 @@
           :label="item.columnLabel"
           align="center"
           show-overflow-tooltip
+          :prop="item.prop"
         >
           <template #default="scope">
             <slot :name="item.slotName || item.customSlotName" :row="scope.row">
@@ -49,7 +51,7 @@
     <div v-if="tableConfig.showFooter" class="footer">
       <slot name="footer">
         <el-pagination
-          v-model:current-page="_page.currentPage"
+          v-model:current-page="_page.pageNo"
           v-model:page-size="_page.pageSize"
           :page-sizes="[20, 40]"
           layout="total, sizes, prev, pager, next, jumper"
@@ -75,22 +77,27 @@ const props = withDefaults(
     isLoading?: boolean
     page?: {
       pageTotal: number
-      currentPage: number
+      pageNo: number
       pageSize: number
+      order: 'ASC' | 'DESC'
+      orderBy: string
     }
   }>(),
   {
     isLoading: false,
     page: () => ({
       pageTotal: 0,
-      currentPage: 1,
-      pageSize: 20
+      pageNo: 1,
+      pageSize: 20,
+      order: 'ASC',
+      orderBy: 'id'
     })
   }
 )
 const emit = defineEmits<{
   (e: 'selectionChange', value: any): void
   (e: 'onPageChange'): void
+  (e: 'onSortChange'): void
   (e: 'update:page', value: typeof props['page']): void
 }>()
 
@@ -100,6 +107,10 @@ const doLayout = () => tableRef.value?.doLayout()
 
 const handleSelectionChange = (value: any) => {
   emit('selectionChange', value)
+}
+const handleSortChange = (val: { column: any; prop: string; order: 'ascending' | 'descending' }) => {
+  emit('update:page', { ..._page.value, order: val.order === 'ascending' ? 'ASC' : 'DESC', orderBy: val.prop })
+  emit('onSortChange')
 }
 
 const _page = useVModel(props, 'page', emit)

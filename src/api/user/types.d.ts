@@ -13,6 +13,9 @@ export interface IUserLoginParams {
 export interface IGetUserListParams {
   pageNo: number
   pageSize: number
+  orderBy: string
+  order: 'ASC' | 'DESC'
+  queryCondition: { id: string; username: string; nickname: string }
 }
 
 export interface IUpdateUserParams {

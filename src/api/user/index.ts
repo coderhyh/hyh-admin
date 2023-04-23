@@ -28,7 +28,8 @@ export const getUserList = <T>(data: IGetUserListParams) =>
 
 export const userExit = <T>() => request.delete<T>({ url: '/user/exit' })
 
-export const deleteUser = <T>(userId: number) => request.delete<T>({ url: `/user/${userId}`, showLoading: true })
+export const deleteUser = <T>(userIds: string[]) =>
+  request.delete<T>({ url: `/user/delete-users`, data: { userIds }, showLoading: true })
 
 export const updateUserInfo = <T>(data: IUpdateUserParams) =>
   request.patch<T>({ url: `/user/${data.userId}`, data, showLoading: true })

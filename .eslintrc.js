@@ -80,7 +80,7 @@ module.exports = {
     // 禁止 if 语句中 return 语句之后有 else 块
     'no-else-return': 'warn',
     // 禁止出现空函数
-    'no-empty-function': 'warn',
+    'no-empty-function': 'off',
     // 禁用不必要的嵌套块
     'no-lone-blocks': 'warn',
     // 禁止使用多个空格

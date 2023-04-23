@@ -6,12 +6,15 @@ export const tableConfig: ITableConfig = {
   showFooter: true,
   tableProps: {
     stripe: true,
+    defaultSort: { prop: 'id', order: 'ascending' },
     tooltipOptions: {
       effect: 'light'
     }
   },
   columnUnifyConfig: {
-    minWidth: 130
+    minWidth: 130,
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending']
   },
   listDataConfig: [
     {
@@ -54,7 +57,9 @@ export const tableConfig: ITableConfig = {
       slotName: 'handler',
       columnLabel: '操作',
       columnProps: {
-        width: 200
+        width: 160,
+        fixed: 'right',
+        sortable: false
       }
     }
   ]

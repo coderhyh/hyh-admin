@@ -10,9 +10,19 @@
         isShowSelectColumn
       }"
       @on-page-change="handlePageChange"
+      @on-sort-change="handlePageChange"
       @selection-change="handleSelectionChange"
     >
       <template #headerHandler>
+        <el-button
+          v-show="selectUsers.length && isShowSelectColumn"
+          type="danger"
+          size="small"
+          :disabled="isDelete"
+          @click="handleBatchDelete"
+        >
+          批量删除
+        </el-button>
         <el-button type="primary" size="small" :disabled="isDelete" @click="handleBatchDeletion"> 批量操作 </el-button>
         <el-button type="primary" size="small" :disabled="isInsert" @click="handleCreateClick"> 新建 </el-button>
       </template>
@@ -43,15 +53,17 @@ import HyhTable, { ITableConfig } from '~/base-ui/hyh-table'
 const props = withDefaults(
   defineProps<{
     tableConfig: ITableConfig
-    fetchFn?: (page: pageType) => Promise<any>
+    fetchFn?: (...args: any[]) => Promise<any>
     tableData?: any[]
   }>(),
   {
     fetchFn: undefined,
-    tableData: () => []
+    tableData: () => [],
+    selectUsers: () => []
   }
 )
 const isShowSelectColumn = ref(false)
+const selectUsers = ref<User.IUserInfo[]>([])
 const handleBatchDeletion = () => {
   isShowSelectColumn.value = !isShowSelectColumn.value
 }
@@ -71,20 +83,23 @@ watch(winSize, () => {
 type pageType = InstanceType<typeof HyhTable>['$props']['page']
 const page = ref<pageType>({
   pageTotal: 0,
-  currentPage: 1,
-  pageSize: 20
+  pageNo: 1,
+  pageSize: 20,
+  orderBy: 'id',
+  order: 'ASC'
 })
 const _tableData = ref<any[]>([])
 const handlePageChange = async () => {
   await fetchData()
   document.querySelector('#layout-main')?.scrollTo(0, 0)
 }
-const fetchData = async () => {
+const fetchData = async (fn?: (page: Omit<NonNullable<pageType>, 'pageTotal'>) => Promise<any[]>) => {
   if (props.fetchFn) {
     showLoading()
-    const [total, list] = await props.fetchFn(page.value!)
+    const [total, list] = await (fn ? fn(page.value!) : props.fetchFn(page.value))
     page.value!.pageTotal = total
     _tableData.value = list
+    selectUsers.value = []
     hideLoading()
   }
 }
@@ -99,6 +114,7 @@ const emit = defineEmits<{
   (e: 'onDeleteClick', row: any): void
   (e: 'onEditClick', row: any): void
   (e: 'onCreateClick'): void
+  (e: 'onBatchDelete', selectUsers: User.IUserInfo[]): void
 }>()
 const handleDeleteClick = (row: any) => {
   emit('onDeleteClick', row)
@@ -109,7 +125,12 @@ const handleEditClick = (row: any) => {
 const handleCreateClick = () => {
   emit('onCreateClick')
 }
-const handleSelectionChange = () => {}
+const handleSelectionChange = (selects: User.IUserInfo[]) => {
+  selectUsers.value = selects
+}
+const handleBatchDelete = () => {
+  emit('onBatchDelete', selectUsers.value)
+}
 </script>
 
 <style lang="less" scoped>

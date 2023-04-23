@@ -1,6 +1,6 @@
 <template>
   <div class="user-manage">
-    <PageForm :form-config="formConfig" />
+    <PageForm :form-config="formConfig" @query-click="handleQueryClick" />
     <PageTable
       ref="pageTableRef"
       mt-20px
@@ -9,6 +9,7 @@
       @on-delete-click="handleDeleteClick"
       @on-edit-click="handleEditClick"
       @on-create-click="handleCreateClick"
+      @on-batch-delete="handleBatchDelete"
     />
     <PageModal
       v-model:show="isShowDialog"
@@ -30,6 +31,12 @@ import { formConfig, modalFormCreateConfig, modalFormEditConfig, tableConfig } f
 const { title, handleType, isShowDialog, modalFormData, handleClick } = usePageModal()
 
 const { fetchUserList } = useStore('user')
+
+// 检索
+const handleQueryClick = (formData: App.IDefaultObject) => {
+  pageTableRef.value?.fetchData((page) => fetchUserList({ ...page, queryCondition: <any>formData }))
+}
+
 // 请求角色
 const modalConfig: { [k in 'create' | 'edit']: IFormConfig } = {
   create: modalFormCreateConfig([]),
@@ -42,15 +49,20 @@ getRoleTypeList<{ code: number; roleTypeList: Role.IRoleTypeList[] }>().then((re
 })
 
 // 删除用户
-const pageTableRef = ref<InstanceType<typeof PageTable>>()
-const global = getCurrentInstance()?.proxy
-const handleDeleteClick = async (row: User.IUserInfo) => {
+const deleteUsers = (users: string[]) =>
   useFetchTryCatch(async () => {
-    const res: App.IDefaultResult = await deleteUser(row.id)
+    const res: App.IDefaultResult = await deleteUser(users)
     global?.$message(res.message, res.code === 200 ? 'success' : 'error')
     pageTableRef.value?.fetchData()
+  }).catch((err: any) => {
+    global?.$message(err.response.data.message, 'error')
   })
-}
+
+const pageTableRef = ref<InstanceType<typeof PageTable>>()
+const global = getCurrentInstance()?.proxy
+const handleDeleteClick = async (row: User.IUserInfo) => deleteUsers([String(row.id)])
+const handleBatchDelete = (selectUsers: User.IUserInfo[]) => deleteUsers(selectUsers.map((e) => `${e.id}`))
+
 // modal
 const handleEditClick = (row: User.IUserInfo) => {
   handleClick({
