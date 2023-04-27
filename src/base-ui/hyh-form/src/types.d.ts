@@ -1,4 +1,4 @@
-import type { ElForm, ElCol, ElInput, ElSelect, ElRow, FormRules } from 'element-plus'
+import type { ElForm, ElCol, ElInput, ElSelect, ElRow, FormRules, ElTree, ElSwitch } from 'element-plus'
 
 export interface IFormConfig {
   labelPosition?: 'left' | 'right' | 'top'
@@ -12,7 +12,7 @@ export interface IFormConfig {
 type defaultEventType = { [k: string]: (...args: any[]) => void }
 
 export interface IFormDataList {
-  type: 'input' | 'select'
+  type: 'input' | 'select' | 'tree' | 'switch'
   modelValue: string
   label?: string
   rules?: FormRules['key']
@@ -24,6 +24,14 @@ export interface IFormDataList {
   }
   inputProps?: {
     config?: InstanceType<typeof ElInput>['$props']
+    event?: defaultEventType
+  }
+  treeProps?: {
+    config?: InstanceType<typeof ElTree>['$props']
+    event?: defaultEventType
+  }
+  switchProps?: {
+    config?: InstanceType<typeof ElSwitch>['$props']
     event?: defaultEventType
   }
 }

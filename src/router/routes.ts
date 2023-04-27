@@ -32,6 +32,24 @@ export const routes: RouteRecordRaw[] = [
               name: '用户管理',
               icon: 'material-symbols:settings-account-box'
             }
+          },
+          {
+            path: 'role-manage',
+            name: 'RoleManage',
+            component: () => import('~/views/system/role-manage'),
+            meta: {
+              name: '角色管理',
+              icon: 'material-symbols:manage-accounts'
+            }
+          },
+          {
+            path: 'permission-manage',
+            name: 'PermissionManage',
+            component: () => import('~/views/system/permission-manage'),
+            meta: {
+              name: '权限管理',
+              icon: 'icon-park-solid:permissions'
+            }
           }
         ]
       },

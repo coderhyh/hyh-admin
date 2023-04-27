@@ -1,5 +1,6 @@
 import { getUserInfo, getUserList, userExit, userLogin } from '~/api/user'
 import { IGetUserListParams, IUserLoginParams } from '~/api/user/types'
+import { elementUtils } from '~/global/elementUtils'
 
 import { defaultTab } from './layout'
 
@@ -49,6 +50,7 @@ export const user = defineStore(
         return res.userList
       } catch (error) {
         console.log(error)
+        elementUtils.$message((<any>error)?.response?.data?.message, 'error')
         return []
       }
     }

@@ -1,6 +1,7 @@
 {
   "globals": {
     "App": true,
+    "IPermission": true,
     "Role": true,
     "User": true
   }

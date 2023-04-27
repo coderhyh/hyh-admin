@@ -3,7 +3,7 @@
     <Icon class="theme-icon" size="20px" :icon="icon" @click="toggleTheme" />
     <el-popover placement="bottom-start" :effect="theme" :width="50" trigger="hover" :teleported="false">
       <template #reference>
-        <el-avatar :size="35" cursor-pointer src="http://124.71.138.107/logo.png" />
+        <el-avatar :size="35" cursor-pointer src="/logo.png" />
       </template>
       <ul class="header-control-menu">
         <li>你好! {{ userInfo.nickname }}</li>

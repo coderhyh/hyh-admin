@@ -1,5 +1,6 @@
 <template>
   <div class="page-table">
+    <!-- <span class="text-12px text-#e47470 opacity-30 select-none">tips: 按钮禁用代表权限不足!</span> -->
     <HyhTable
       ref="hyhTableRef"
       v-model:page="pageParams"
@@ -15,27 +16,42 @@
       @selection-change="handleSelectionChange"
     >
       <template #headerHandler>
-        <el-button
-          v-show="selectUsers.length && isShowSelectColumn"
-          type="danger"
-          size="small"
-          :disabled="isDelete"
-          @click="handleBatchDelete"
-        >
-          批量删除
-        </el-button>
+        <el-popconfirm title="确定要删除吗?" @confirm="handleBatchDelete">
+          <template #reference>
+            <el-button
+              v-show="selectUsers.length && isShowSelectColumn"
+              type="danger"
+              size="small"
+              :disabled="isDelete"
+            >
+              批量删除
+            </el-button>
+          </template>
+        </el-popconfirm>
+
         <el-button type="primary" size="small" :disabled="isDelete" @click="handleBatchDeletion"> 批量操作 </el-button>
         <el-button type="primary" size="small" :disabled="isInsert" @click="handleCreateClick"> 新建 </el-button>
       </template>
 
       <template #handler="{ row }">
-        <div>
-          <el-button size="small" type="primary" :disabled="isUpdate" @click="handleEditClick(row)"> 编辑 </el-button>
+        <div class="flex content-center">
+          <el-button size="small" type="primary" :disabled="isUpdate" @click="handleEditClick(row)">
+            {{ editText }}
+          </el-button>
           <el-popconfirm title="确定要删除吗?" @confirm="handleDeleteClick(row)">
             <template #reference>
               <el-button size="small" type="danger" :disabled="isDelete"> 删除 </el-button>
             </template>
           </el-popconfirm>
+          <el-dropdown v-if="isShowMore" ml-10px>
+            <Icon icon="ion:ellipsis-horizontal" size="18" class="cursor-pointer outline-none hover:text-#409eff" />
+            <el-button type="primary" link></el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>重置密码</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
       </template>
 
@@ -56,15 +72,19 @@ const props = withDefaults(
     tableConfig: ITableConfig
     fetchFn?: (...args: any[]) => Promise<any>
     tableData?: any[]
+    pageType: 'role' | 'user'
+    editText?: string
+    isShowMore?: boolean
   }>(),
   {
     fetchFn: undefined,
     tableData: () => [],
-    selectUsers: () => []
+    editText: '编辑',
+    isShowMore: false
   }
 )
 const isShowSelectColumn = ref(false)
-const selectUsers = ref<User.IUserInfo[]>([])
+const selectUsers = ref<any[]>([])
 const handleBatchDeletion = () => {
   isShowSelectColumn.value = !isShowSelectColumn.value
 }
@@ -81,7 +101,7 @@ watch(winSize, () => {
   hyhTableRef.value!.doLayout()
 })
 // 请求数据
-const { pageParams, pageTotal } = useStore('user')
+const { pageParams, pageTotal } = useStore(props.pageType)
 const _tableData = ref<any[]>([])
 const handlePageChange = async () => {
   await fetchData()
@@ -107,7 +127,7 @@ const emit = defineEmits<{
   (e: 'onDeleteClick', row: any): void
   (e: 'onEditClick', row: any): void
   (e: 'onCreateClick'): void
-  (e: 'onBatchDelete', selectUsers: User.IUserInfo[]): void
+  (e: 'onBatchDelete', selectUsers: any[]): void
 }>()
 const handleDeleteClick = (row: any) => {
   emit('onDeleteClick', row)
@@ -118,7 +138,7 @@ const handleEditClick = (row: any) => {
 const handleCreateClick = () => {
   emit('onCreateClick')
 }
-const handleSelectionChange = (selects: User.IUserInfo[]) => {
+const handleSelectionChange = (selects: any[]) => {
   selectUsers.value = selects
 }
 const handleBatchDelete = () => {
@@ -132,5 +152,9 @@ const handleBatchDelete = () => {
   border-radius: 15px;
   background-color: white;
   box-shadow: var(--el-box-shadow-lighter);
+
+  :deep(.el-dropdown) {
+    align-items: center;
+  }
 }
 </style>

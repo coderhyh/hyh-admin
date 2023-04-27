@@ -38,8 +38,8 @@ const updateCollapse = () => {
 
 const breadcrumbArr = computed((): RouteRecordRaw[] => {
   const currentRouteName = route.meta.name
-  const currentRouteObj = getTreeParent(layoutChildren as RouteRecordRaw[], currentRouteName)
-  const currentRoute: RouteRecordRaw[] = readNodes([currentRouteObj], route.path)
+  const currentRouteObj = getTreeParent(layoutChildren!, currentRouteName)
+  const currentRoute: RouteRecordRaw[] = readNodes(currentRouteObj, route.meta?.name as string)
   return currentRoute.filter((i) => i.meta?.name !== '控制台')
 })
 
@@ -49,11 +49,21 @@ function getTreeParent(list: RouteRecordRaw[], target: unknown): RouteRecordRaw 
   ) as RouteRecordRaw
 }
 
-function readNodes(list: RouteRecordRaw[], target = '', arr: RouteRecordRaw[] = []): RouteRecordRaw[] {
-  for (const item of list) {
-    arr.push(item)
-    if (item.meta?.name !== target && item.children) readNodes(item.children, target, arr)
+function readNodes(node: RouteRecordRaw, target = ''): RouteRecordRaw[] {
+  const arr: RouteRecordRaw[] = []
+  const foo = (node: RouteRecordRaw) => {
+    if (node.meta?.name === target) {
+      return arr.push(node)
+    } else if (node.children && node.children.length > 0) {
+      for (const item of node.children) {
+        if (foo(item)) {
+          return arr.unshift(node)
+        }
+      }
+    }
+    return false
   }
+  foo(node)
   return arr
 }
 </script>

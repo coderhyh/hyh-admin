@@ -36,6 +36,18 @@
                   />
                 </el-select>
               </template>
+
+              <template v-else-if="item.type === 'tree'">
+                <el-tree
+                  style="width: 100%"
+                  v-bind="item.treeProps?.config"
+                  @check="(_, data: any) => handleCheckChange(data.checkedKeys, item)"
+                />
+              </template>
+
+              <template v-else-if="item.type === 'switch'">
+                <el-switch v-model="formData[item.modelValue]" inline-prompt v-bind="item.switchProps?.config" />
+              </template>
             </el-form-item>
           </el-col>
         </template>
@@ -51,12 +63,11 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
 
-import { IFormConfig } from './types'
+import { IFormConfig, IFormDataList } from './types'
 
-type ModelValue = { [k: string]: any }
 const props = defineProps<{
   formConfig: IFormConfig
-  modelValue: ModelValue
+  modelValue: App.IDefaultObject
 }>()
 
 const emit = defineEmits<{
@@ -64,7 +75,7 @@ const emit = defineEmits<{
   (event: 'onSubmit'): void
 }>()
 
-const formData: ModelValue = useVModel(props, 'modelValue', emit)
+const formData = useVModel<App.IDefaultObject>(props, 'modelValue', emit)
 
 const defaultCol = {
   xs: 25,
@@ -86,6 +97,10 @@ const onSubmit = () => emit('onSubmit')
 
 const getFormRef = () => formRef.value
 defineExpose({ getFormRef })
+
+const handleCheckChange = (keys: (number | undefined)[], item: IFormDataList) => {
+  formData.value[item.modelValue] = keys.filter(Boolean)
+}
 </script>
 
 <style lang="less" scoped>

@@ -23,8 +23,10 @@ const emit = defineEmits<{
 const formDataOrigin = useFormDataOrigin(props.formConfig.formDataList)
 const formData = ref(formDataOrigin)
 
-const handleResetClick = () => {
+const handleResetClick = async () => {
   formData.value = formDataOrigin
+  await nextTick()
+  emit('queryClick', formData.value)
 }
 const handleQueryClick = () => {
   emit('queryClick', formData.value)

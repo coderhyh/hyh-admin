@@ -4,8 +4,10 @@
     <PageTable
       ref="pageTableRef"
       mt-20px
+      page-type="user"
       :table-config="tableConfig"
       :fetch-fn="fetchUserList"
+      is-show-more
       @on-delete-click="handleDeleteClick"
       @on-edit-click="handleEditClick"
       @on-create-click="handleCreateClick"
@@ -21,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { getRoleTypeList } from '~/api/role'
+import { getRoleListSelect } from '~/api/role'
 import { createUser, deleteUser, updateUserInfo } from '~/api/user'
 import { IFormConfig } from '~/base-ui/hyh-form'
 import PageTable from '~/components/page-table/page-table.vue'
@@ -40,13 +42,13 @@ const handleFormDataChange = ({ id, username, nickname }: App.IDefaultObject) =>
   pageParams.value.queryCondition = { id, username, nickname }
 }
 
-// 请求角色
+// 请求角色选择项
 const modalConfig: { [k in 'create' | 'edit']: IFormConfig } = {
   create: modalFormCreateConfig([]),
   edit: modalFormEditConfig([])
 }
-getRoleTypeList<{ code: number; roleTypeList: Role.IRoleTypeList[] }>().then((res) => {
-  const options = res.roleTypeList.map((e) => ({ label: String(e.role_name), value: String(e.id) }))
+getRoleListSelect<{ code: number; roleListSelect: Role.IRoleListSelect[] }>().then((res) => {
+  const options = res?.roleListSelect.map((e) => ({ label: String(e.role_name), value: String(e.id) })) ?? []
   modalConfig.create = modalFormCreateConfig(options)
   modalConfig.edit = modalFormEditConfig(options)
 })
@@ -73,7 +75,7 @@ const handleEditClick = (row: User.IUserInfo) => {
     config: modalConfig.edit,
     title: '修改用户',
     formData: {
-      id: String(row.id),
+      id: row.id,
       username: row.username,
       nickname: row.nickname,
       role: String(row.role.id)
@@ -102,6 +104,8 @@ const handleModalSubmit = async () => {
 
     global?.$message(res.message, res.code === 200 ? 'success' : 'error')
     pageTableRef.value?.fetchData()
+  }).catch((error: any) => {
+    global?.$message(error?.response?.data?.message, 'error')
   })
 }
 </script>

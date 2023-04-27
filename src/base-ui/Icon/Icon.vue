@@ -19,7 +19,10 @@ const icons = [
   'mdi:cog',
   'material-symbols:settings-account-box',
   'pixelarticons:book-open',
-  'medical-icon:i-physical-therapy'
+  'medical-icon:i-physical-therapy',
+  'material-symbols:manage-accounts',
+  'icon-park-solid:permissions',
+  'ion:ellipsis-horizontal'
 ]
 </script>
 
