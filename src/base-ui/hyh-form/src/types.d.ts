@@ -19,7 +19,9 @@ export interface IFormDataList {
   colProps?: InstanceType<typeof ElCol>['$props']
   isDefaultCol?: boolean
   selectProps?: {
-    config?: { option: { value: string; label: string }[] } & InstanceType<typeof ElSelect>['$props']
+    config?: { option: { label: string; value: string | number; disabled?: boolean }[] } & InstanceType<
+      typeof ElSelect
+    >['$props']
     event?: defaultEventType
   }
   inputProps?: {

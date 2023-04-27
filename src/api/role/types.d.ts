@@ -10,7 +10,8 @@ export interface IUpdateRoleParams {
   roleId: number
   role_name: string
   role_alias: string
-  status: number
+  status: 0 | 1
+  grade: number
   permissionList: number[]
 }
 

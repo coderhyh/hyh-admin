@@ -14,7 +14,7 @@ declare namespace App {
   }
 
   interface ISelectOption {
-    value: string
+    value: string | number
     label: string
   }
 }

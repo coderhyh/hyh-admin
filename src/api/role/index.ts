@@ -11,3 +11,6 @@ export const updateRoleInfo = <T>(data: IUpdateRoleParams) =>
 
 export const updateRoleStatus = <T>(data: IUpdateRoleStatusParams) =>
   request.patch<T>({ url: `/role/status/${data.roleId}`, data, showLoading: true })
+
+export const deleteRole = <T>(roleIds: number[]) =>
+  request.delete<T>({ url: `/role/delete-role`, data: { roleIds }, showLoading: true })

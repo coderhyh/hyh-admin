@@ -6,13 +6,17 @@
       mt-20px
       page-type="user"
       :table-config="tableConfig"
-      :fetch-fn="fetchUserList"
+      :automatic-request-fn="fetchUserList"
       is-show-more
       @on-delete-click="handleDeleteClick"
       @on-edit-click="handleEditClick"
       @on-create-click="handleCreateClick"
       @on-batch-delete="handleBatchDelete"
-    />
+    >
+      <template #roleGrade="{ row }">
+        <el-tag>{{ row.role?.grade }}</el-tag>
+      </template>
+    </PageTable>
     <PageModal
       v-model:show="isShowDialog"
       v-model:form-data="modalFormData"
@@ -27,12 +31,15 @@ import { getRoleListSelect } from '~/api/role'
 import { createUser, deleteUser, updateUserInfo } from '~/api/user'
 import { IFormConfig } from '~/base-ui/hyh-form'
 import PageTable from '~/components/page-table/page-table.vue'
+import { elementUtils } from '~/global/elementUtils'
 
 import { formConfig, modalFormCreateConfig, modalFormEditConfig, tableConfig } from './config'
 
 const { title, handleType, isShowDialog, modalFormData, handleClick } = usePageModal()
 
-const { fetchUserList, pageParams } = useStore('user')
+const { fetchUserList, pageParams, userInfo } = useStore('user')
+const global = getCurrentInstance()?.proxy
+const pageTableRef = ref<InstanceType<typeof PageTable>>()
 
 // 检索
 const handleQueryClick = () => {
@@ -48,13 +55,18 @@ const modalConfig: { [k in 'create' | 'edit']: IFormConfig } = {
   edit: modalFormEditConfig([])
 }
 getRoleListSelect<{ code: number; roleListSelect: Role.IRoleListSelect[] }>().then((res) => {
-  const options = res?.roleListSelect.map((e) => ({ label: String(e.role_name), value: String(e.id) })) ?? []
+  const options =
+    res?.roleListSelect.map((e) => ({
+      label: String(e.role_name),
+      value: e.id,
+      disabled: Boolean(e.status)
+    })) ?? []
   modalConfig.create = modalFormCreateConfig(options)
   modalConfig.edit = modalFormEditConfig(options)
 })
 
 // 删除用户
-const deleteUsers = (users: string[]) =>
+const deleteUsers = (users: number[]) =>
   useFetchTryCatch(async () => {
     const res: App.IDefaultResult = await deleteUser(users)
     global?.$message(res.message, res.code === 200 ? 'success' : 'error')
@@ -63,10 +75,19 @@ const deleteUsers = (users: string[]) =>
     global?.$message(err.response.data.message, 'error')
   })
 
-const pageTableRef = ref<InstanceType<typeof PageTable>>()
-const global = getCurrentInstance()?.proxy
-const handleDeleteClick = async (row: User.IUserInfo) => deleteUsers([String(row.id)])
-const handleBatchDelete = (selectUsers: User.IUserInfo[]) => deleteUsers(selectUsers.map((e) => `${e.id}`))
+const handleDeleteClick = async (row: User.IUserInfo) => deleteUsers([row.id])
+const handleBatchDelete = (selectUsers: User.IUserInfo[]) => {
+  const res = selectUsers.filter((e) => !(userInfo.value.role!.grade <= e.role.grade))
+  if (!res.length) {
+    deleteUsers(selectUsers.map((e) => e.id))
+  } else {
+    const msg = `
+      有选择项级别权限不足:无法操作 <br />
+      当前角色级别: ${userInfo.value.role?.grade}
+    `
+    elementUtils.$messageBox(msg)
+  }
+}
 
 // modal
 const handleEditClick = (row: User.IUserInfo) => {
@@ -78,7 +99,7 @@ const handleEditClick = (row: User.IUserInfo) => {
       id: row.id,
       username: row.username,
       nickname: row.nickname,
-      role: String(row.role.id)
+      role: row.role.id
     }
   })
 }
@@ -101,6 +122,7 @@ const handleModalSubmit = async () => {
       const { username, password, nickname, role } = modalFormData.value
       res = await createUser({ username, password, nickname, role })
     }
+    if (res.code === 200) isShowDialog.value = false
 
     global?.$message(res.message, res.code === 200 ? 'success' : 'error')
     pageTableRef.value?.fetchData()

@@ -38,6 +38,11 @@ export const tableConfig: ITableConfig = {
       columnLabel: '角色'
     },
     {
+      prop: 'role',
+      customSlotName: 'roleGrade',
+      columnLabel: '角色级别'
+    },
+    {
       prop: 'create_time',
       columnLabel: '创建时间',
       formatter: utcToLocale
@@ -50,7 +55,10 @@ export const tableConfig: ITableConfig = {
     {
       prop: 'last_login_time',
       columnLabel: '最后登录时间',
-      formatter: utcToLocale
+      formatter: utcToLocale,
+      columnProps: {
+        width: 150
+      }
     },
 
     {

@@ -1,12 +1,11 @@
 <template>
   <div class="page-table">
-    <!-- <span class="text-12px text-#e47470 opacity-30 select-none">tips: 按钮禁用代表权限不足!</span> -->
     <HyhTable
       ref="hyhTableRef"
       v-model:page="pageParams"
       v-bind="{
         tableConfig,
-        tableData: fetchFn ? _tableData : tableData,
+        tableData: automaticRequestFn ? _tableData : tableData,
         isLoading,
         isShowSelectColumn,
         pageTotal
@@ -70,14 +69,14 @@ import HyhTable, { ITableConfig } from '~/base-ui/hyh-table'
 const props = withDefaults(
   defineProps<{
     tableConfig: ITableConfig
-    fetchFn?: (...args: any[]) => Promise<any>
+    automaticRequestFn?: (...args: any[]) => Promise<any>
     tableData?: any[]
     pageType: 'role' | 'user'
     editText?: string
     isShowMore?: boolean
   }>(),
   {
-    fetchFn: undefined,
+    automaticRequestFn: undefined,
     tableData: () => [],
     editText: '编辑',
     isShowMore: false
@@ -108,9 +107,9 @@ const handlePageChange = async () => {
   document.querySelector('#layout-main')?.scrollTo(0, 0)
 }
 const fetchData = async () => {
-  if (props.fetchFn) {
+  if (props.automaticRequestFn) {
     showLoading()
-    const list = await props.fetchFn()
+    const list = await props.automaticRequestFn()
     _tableData.value = list
     selectUsers.value = []
     hideLoading()

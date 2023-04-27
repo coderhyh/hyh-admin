@@ -26,5 +26,7 @@ declare namespace User {
     id: number
     role_name: string
     role_alias: string
+    status: 0 | 1
+    grade: number
   }
 }

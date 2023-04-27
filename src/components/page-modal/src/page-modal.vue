@@ -52,7 +52,6 @@ const handleSubmit = async () => {
   const validateRes = await formRef?.validate(() => {})
   if (validateRes) {
     emit('onSubmit')
-    _isShowDialog.value = false
   }
 }
 </script>

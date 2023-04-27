@@ -1,6 +1,12 @@
 import { IFormConfig } from '~/base-ui/hyh-form'
 
-export const modalFormEditConfig = (treeList: any[], defaultCheckedKeys: number[] = []): IFormConfig => ({
+import { roleGradeOptions } from './role-grade-options'
+
+export const modalFormEditConfig = (
+  treeList: any[],
+  defaultCheckedKeys: number[] = [],
+  grade: number
+): IFormConfig => ({
   labelPosition: 'left',
   formProps: {
     labelWidth: '70px',
@@ -54,6 +60,16 @@ export const modalFormEditConfig = (treeList: any[], defaultCheckedKeys: number[
           inactiveText: '未冻结',
           activeValue: 1,
           inactiveValue: 0
+        }
+      }
+    },
+    {
+      type: 'select',
+      label: '级别',
+      modelValue: 'grade',
+      selectProps: {
+        config: {
+          option: roleGradeOptions.map((e) => ({ ...e, disabled: e.value < grade }))
         }
       }
     },

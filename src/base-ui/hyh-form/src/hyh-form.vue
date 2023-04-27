@@ -33,6 +33,7 @@
                     :key="it.label"
                     :label="it.label"
                     :value="it.value"
+                    :disabled="it.disabled"
                   />
                 </el-select>
               </template>
