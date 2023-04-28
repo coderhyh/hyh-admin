@@ -1,9 +1,12 @@
 import { IFormConfig } from '~/base-ui/hyh-form'
 
-export const modalFormCreateConfig = (roleOptions: App.ISelectOption[]): IFormConfig => ({
+import { roleGradeOptions } from './role-grade-options'
+
+export const modalFormCreateConfig = (treeList: any[], grade: number): IFormConfig => ({
   labelPosition: 'left',
   formProps: {
-    labelWidth: '70px'
+    labelWidth: '70px',
+    hideRequiredAsterisk: true
   },
   colAllProps: {
     xs: 50,
@@ -15,58 +18,65 @@ export const modalFormCreateConfig = (roleOptions: App.ISelectOption[]): IFormCo
   formDataList: [
     {
       type: 'input',
-      label: '用户名',
-      modelValue: 'username',
+      label: '角色名',
+      modelValue: 'role_name',
       inputProps: {
-        config: { placeholder: '请输入用户名' }
+        config: { placeholder: '请输入角色名' }
       },
-      rules: [
-        { required: true, message: '用户名不能为空', trigger: 'blur' },
-        {
-          pattern: /^[a-zA-Z\d.]{6,16}$/,
-          message: '用户名需要为6-16位的字母/数字/.',
-          trigger: 'blur'
-        }
-      ]
+      rules: [{ required: true, message: '角色名不能为空', trigger: 'blur' }]
     },
     {
       type: 'input',
-      label: '密码',
-      modelValue: 'password',
+      label: '别名',
+      modelValue: 'role_alias',
       inputProps: {
-        config: { type: 'password', placeholder: '请输入密码', showPassword: true }
+        config: { placeholder: '请输入' }
       },
       rules: [
-        { required: true, message: '密码不能为空', trigger: 'blur' },
-        {
-          pattern: /^[\da-zA-z_.]{6,16}$/,
-          message: '密码需要为6-16位的字母/数字/_/.',
-          trigger: 'blur'
-        }
+        { required: true, message: '别名不能为空', trigger: 'blur' },
+        { max: 6, message: '别名最长6个字符', trigger: 'blur' }
       ]
     },
     {
-      type: 'input',
-      label: '昵称',
-      modelValue: 'nickname',
-      inputProps: {
-        config: { placeholder: '请输入昵称' }
-      },
-      rules: [
-        { required: true, message: '昵称不能为空', trigger: 'blur' },
-        { max: 6, message: '昵称最长6个字符', trigger: 'blur' }
-      ]
+      type: 'switch',
+      label: '是否冻结',
+      modelValue: 'status',
+      switchProps: {
+        config: {
+          activeText: '已冻结',
+          activeColor: '#e47470',
+          inactiveText: '未冻结',
+          activeValue: 1,
+          inactiveValue: 0
+        }
+      }
     },
     {
       type: 'select',
-      label: '角色',
-      modelValue: 'role',
+      label: '级别',
+      modelValue: 'grade',
       selectProps: {
         config: {
-          option: roleOptions
+          option: roleGradeOptions.map((e) => ({ ...e, disabled: <number>e.value < grade }))
         }
-      },
-      rules: [{ required: true, message: '角色不能为空', trigger: 'blur' }]
+      }
+    },
+    {
+      type: 'tree',
+      label: '权限选择',
+      modelValue: 'permissionList',
+      treeProps: {
+        config: {
+          showCheckbox: true,
+          data: treeList,
+          nodeKey: 'id',
+          accordion: true,
+          props: {
+            label: (data, node) => (data.children ? data.page : data.description),
+            children: 'children'
+          }
+        }
+      }
     }
   ]
 })

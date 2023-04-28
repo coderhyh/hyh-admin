@@ -1,9 +1,6 @@
 <template>
   <div class="role-manage">
     <PageForm :form-config="formConfig" @query-click="handleQueryClick" @form-data-change="handleFormDataChange" />
-    <!--
-    @on-create-click="handleCreateClick"
-     -->
     <PageTable
       ref="pageTableRef"
       page-type="role"
@@ -14,6 +11,7 @@
       @on-edit-click="handleEditClick"
       @on-delete-click="handleDeleteClick"
       @on-batch-delete="handleBatchDelete"
+      @on-create-click="handleCreateClick"
     >
       <template #status="{ row }">
         <el-switch
@@ -42,24 +40,20 @@
 </template>
 
 <script setup lang="ts">
-import { getPermissionListSelect } from '~/api/permission'
-import { deleteRole, updateRoleInfo, updateRoleStatus } from '~/api/role'
-import { IFormConfig } from '~/base-ui/hyh-form'
+import { updateRoleStatus } from '~/api/role'
 import PageTable from '~/components/page-table/page-table.vue'
-import { elementUtils } from '~/global/elementUtils'
 
-import { formConfig, modalFormCreateConfig, modalFormEditConfig, tableConfig } from './config'
-
-const { title, handleType, isShowDialog, modalFormData, handleClick } = usePageModal()
+import { formConfig, tableConfig } from './config'
+import { useDeleteRole, useHandleModalClick } from './hooks'
 
 const { fetchRoleList, pageParams } = useStore('role')
 const { userInfo } = useStore('user')
 const global = getCurrentInstance()?.proxy
 const pageTableRef = ref<InstanceType<typeof PageTable>>()
 const curRoleGrade = computed(() => userInfo.value.role!.grade)
+
 // 权限
 const isUpdate = useVerifyPermission('table', 'update')
-
 // 检索
 const handleQueryClick = () => {
   pageTableRef.value?.fetchData()
@@ -67,82 +61,17 @@ const handleQueryClick = () => {
 const handleFormDataChange = ({ id, role_name, role_alias }: App.IDefaultObject) => {
   pageParams.value.queryCondition = { id, role_name, role_alias }
 }
-// 请求权限选择项
-const modalConfig: { [k in 'create' | 'edit']: IFormConfig } = {
-  create: modalFormCreateConfig(<any>[]),
-  edit: modalFormEditConfig(<any>[], [], curRoleGrade.value)
-}
-const treeList = ref<IPermission.IListSelect[]>([])
-getPermissionListSelect<{ code: number; permissionListSelect: IPermission.IListSelect[] }>().then((res) => {
-  treeList.value = res?.permissionListSelect ?? []
-  // modalConfig.create = modalFormCreateConfig(options)
-})
 
 // 删除角色
-const deleteRoles = (roles: number[]) =>
-  useFetchTryCatch(async () => {
-    const res: App.IDefaultResult = await deleteRole(roles)
-    global?.$message(res.message, res.code === 200 ? 'success' : 'error')
-    pageTableRef.value?.fetchData()
-  }).catch((err: any) => {
-    global?.$message(err.response.data.message, 'error')
-  })
-
-const handleDeleteClick = (row: Role.IRoleInfo) => deleteRoles([row.id])
-const handleBatchDelete = (selectRoles: Role.IRoleInfo[]) => {
-  const res = selectRoles.filter((e) => !(curRoleGrade.value <= e.grade))
-  if (!res.length) {
-    deleteRoles(selectRoles.map((e) => e.id))
-  } else {
-    const msg = `
-      有选择项级别权限不足:无法操作 <br />
-      当前角色级别: ${userInfo.value.role?.grade}
-    `
-    elementUtils.$messageBox(msg)
-  }
-}
+const [handleDeleteClick, handleBatchDelete] = useDeleteRole(pageTableRef, curRoleGrade)
 
 // modal
-const handleEditClick = (row: Role.IRoleInfo) => {
-  const permissionList = row.permission.map((e) => e.id)
-  modalConfig.edit = modalFormEditConfig(treeList.value, permissionList, curRoleGrade.value)
-  handleClick({
-    type: 'edit',
-    config: modalConfig.edit,
-    title: '修改角色',
-    formData: {
-      id: row.id,
-      role_name: row.role_name,
-      role_alias: row.role_alias,
-      status: row.status,
-      grade: row.grade,
-      permissionList
-    }
+const { title, isShowDialog, modalFormData, handleEditClick, handleCreateClick, handleModalSubmit } =
+  useHandleModalClick({
+    curRoleGrade,
+    pageTableRef
   })
-}
-const handleModalSubmit = () => {
-  useFetchTryCatch(async () => {
-    let res: App.IDefaultObject = {}
-    if (handleType.value === 'edit') {
-      const { id, role_name, role_alias, status, grade, permissionList } = modalFormData.value
-      res = await updateRoleInfo({
-        roleId: id,
-        role_name,
-        role_alias,
-        status: Number(status) as 0 | 1,
-        grade,
-        permissionList
-      })
-    } else if (handleType.value === 'create') {
-      console.log('create')
-    }
-    if (res.code === 200) isShowDialog.value = false
-    global?.$message(res.message, res.code === 200 ? 'success' : 'error')
-    pageTableRef.value?.fetchData()
-  }).catch((error: any) => {
-    global?.$message(error?.response?.data?.message, 'error')
-  })
-}
+
 // 状态切换
 const handleSwitchChange = (row: Role.IRoleInfo) => async () => {
   if (!row.id) return false
@@ -158,7 +87,4 @@ const handleSwitchChange = (row: Role.IRoleInfo) => async () => {
 }
 </script>
 
-<style scoped>
-.role-manage {
-}
-</style>
+<style scoped></style>

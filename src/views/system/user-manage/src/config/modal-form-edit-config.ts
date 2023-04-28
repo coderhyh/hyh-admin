@@ -1,6 +1,6 @@
 import { IFormConfig } from '~/base-ui/hyh-form'
 
-export const modalFormEditConfig = (roleOptions: App.ISelectOption[]): IFormConfig => ({
+export const modalFormEditConfig = (roleOptions: App.ISelectOption[], grade: number): IFormConfig => ({
   labelPosition: 'left',
   formProps: {
     labelWidth: '70px',
@@ -56,7 +56,10 @@ export const modalFormEditConfig = (roleOptions: App.ISelectOption[]): IFormConf
       modelValue: 'role',
       selectProps: {
         config: {
-          option: roleOptions
+          option: roleOptions.map((e) => ({
+            ...e,
+            disabled: e.disabled ? e.disabled : <number>e.value < grade
+          }))
         }
       },
       rules: [{ required: true, message: '角色不能为空', trigger: 'blur' }]

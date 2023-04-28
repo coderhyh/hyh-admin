@@ -15,21 +15,34 @@
       @selection-change="handleSelectionChange"
     >
       <template #headerHandler>
-        <el-popconfirm title="确定要删除吗?" @confirm="handleBatchDelete">
-          <template #reference>
-            <el-button
-              v-show="selectUsers.length && isShowSelectColumn"
-              type="danger"
-              size="small"
-              :disabled="isDelete"
-            >
-              批量删除
-            </el-button>
-          </template>
-        </el-popconfirm>
+        <section class="flex content-center">
+          <Icon
+            icon="mdi:refresh"
+            size="25"
+            class="cursor-pointer refresh"
+            :class="{ 'refresh-click': refreshLoading }"
+            @click="handleRefreshClick"
+          />
 
-        <el-button type="primary" size="small" :disabled="isDelete" @click="handleBatchDeletion"> 批量操作 </el-button>
-        <el-button type="primary" size="small" :disabled="isInsert" @click="handleCreateClick"> 新建 </el-button>
+          <el-popconfirm title="确定要删除吗?" @confirm="handleBatchDelete">
+            <template #reference>
+              <el-button
+                v-show="selectUsers.length && isShowSelectColumn"
+                type="danger"
+                size="small"
+                class="ml-10px"
+                :disabled="isDelete"
+              >
+                批量删除
+              </el-button>
+            </template>
+          </el-popconfirm>
+
+          <el-button type="primary" size="small" :disabled="isDelete" @click="handleBatchDeletion">
+            批量操作
+          </el-button>
+          <el-button type="primary" size="small" :disabled="isInsert" @click="handleCreateClick"> 新建 </el-button>
+        </section>
       </template>
 
       <template #handler="{ row }">
@@ -74,16 +87,26 @@ const props = withDefaults(
     pageType: 'role' | 'user'
     editText?: string
     isShowMore?: boolean
+    isShowRefresh?: boolean
   }>(),
   {
     automaticRequestFn: undefined,
     tableData: () => [],
     editText: '编辑',
-    isShowMore: false
+    isShowMore: false,
+    isShowRefresh: true
   }
 )
 const isShowSelectColumn = ref(false)
 const selectUsers = ref<any[]>([])
+const refreshLoading = ref<boolean>(false)
+const handleRefreshClick = () => {
+  refreshLoading.value = true
+  fetchData()
+  setTimeout(() => {
+    refreshLoading.value = false
+  }, 1500)
+}
 const handleBatchDeletion = () => {
   isShowSelectColumn.value = !isShowSelectColumn.value
 }
@@ -151,6 +174,23 @@ const handleBatchDelete = () => {
   border-radius: 15px;
   background-color: white;
   box-shadow: var(--el-box-shadow-lighter);
+
+  .refresh {
+    &:hover {
+      color: var(--theme-color);
+      transition: color 0.3s ease;
+    }
+  }
+
+  .refresh-click {
+    animation: refresh 1.5s infinite;
+  }
+
+  @keyframes refresh {
+    to {
+      transform: rotate(720deg);
+    }
+  }
 
   :deep(.el-dropdown) {
     align-items: center;

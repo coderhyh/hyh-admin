@@ -69,7 +69,7 @@ export const modalFormEditConfig = (
       modelValue: 'grade',
       selectProps: {
         config: {
-          option: roleGradeOptions.map((e) => ({ ...e, disabled: e.value < grade }))
+          option: roleGradeOptions.map((e) => ({ ...e, disabled: <number>e.value < grade }))
         }
       }
     },

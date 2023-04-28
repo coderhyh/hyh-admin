@@ -22,7 +22,8 @@ const icons = [
   'medical-icon:i-physical-therapy',
   'material-symbols:manage-accounts',
   'icon-park-solid:permissions',
-  'ion:ellipsis-horizontal'
+  'ion:ellipsis-horizontal',
+  'mdi:refresh'
 ]
 </script>
 
