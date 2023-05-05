@@ -15,14 +15,22 @@
           <el-button type="primary" @click="handleSubmit"> 提交 </el-button>
         </span>
       </template>
+
+      <template v-for="item in customSlotNames" :key="item.customSlotName" #[item.customSlotName!]="{ row }">
+        <template v-if="item.customSlotName">
+          <slot :name="item.customSlotName" :row="row"></slot>
+        </template>
+      </template>
     </HyhForm>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
+import { Ref } from 'vue'
+
 import HyhForm, { IFormConfig } from '~/base-ui/hyh-form'
 
-const modalFormConfig = inject<IFormConfig>('modalFormConfig')
+const modalFormConfig = inject<Ref<IFormConfig>>('modalFormConfig')
 
 const props = withDefaults(
   defineProps<{
@@ -46,6 +54,8 @@ const hyhFormRef = ref<InstanceType<typeof HyhForm>>()
 const _isShowDialog = useVModel<boolean>(props, 'show', emit)
 
 const _formData = useVModel<App.IDefaultObject>(props, 'formData', emit)
+
+const customSlotNames = computed(() => modalFormConfig?.value.formDataList.filter((e) => e.customSlotName))
 
 const handleSubmit = async () => {
   const formRef = hyhFormRef.value?.getFormRef()

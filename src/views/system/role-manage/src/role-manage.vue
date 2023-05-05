@@ -15,6 +15,7 @@
     >
       <template #status="{ row }">
         <el-switch
+          v-if="row.status !== ACCOUNT_STATUS.ADMIN"
           v-model="row.status"
           inline-prompt
           :disabled="isUpdate"
@@ -25,6 +26,7 @@
           :inactive-value="0"
           :before-change="handleSwitchChange(row)"
         />
+        <el-tag v-else type="success">管理员</el-tag>
       </template>
       <template #grade="{ row }">
         <el-tag>{{ row.grade }}</el-tag>
@@ -35,13 +37,24 @@
       v-model:form-data="modalFormData"
       :title="title"
       @on-submit="handleModalSubmit"
-    />
+    >
+      <template #status="{ row }">
+        <el-switch
+          v-if="modalFormData[row.modelValue] !== ACCOUNT_STATUS.ADMIN"
+          v-model="modalFormData[row.modelValue]"
+          inline-prompt
+          v-bind="row.switchProps?.config"
+        />
+        <el-tag v-else type="success">管理员</el-tag>
+      </template>
+    </PageModal>
   </div>
 </template>
 
 <script setup lang="ts">
 import { updateRoleStatus } from '~/api/role'
 import PageTable from '~/components/page-table/page-table.vue'
+import { ACCOUNT_STATUS } from '~/enums'
 
 import { formConfig, tableConfig } from './config'
 import { useDeleteRole, useHandleModalClick } from './hooks'
@@ -51,7 +64,6 @@ const { userInfo } = useStore('user')
 const global = getCurrentInstance()?.proxy
 const pageTableRef = ref<InstanceType<typeof PageTable>>()
 const curRoleGrade = computed(() => userInfo.value.role!.grade)
-
 // 权限
 const isUpdate = useVerifyPermission('table', 'update')
 // 检索

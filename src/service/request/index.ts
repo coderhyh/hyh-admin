@@ -13,6 +13,7 @@ class Request {
   instance: AxiosInstance
   interceptors?: RequestInterceptors
   showLoading: boolean
+  cancelTokenList: Map<AxiosRequestConfig, Canceler> = new Map()
 
   constructor(config: RequestConfig) {
     // 创建axios实例
@@ -47,6 +48,7 @@ class Request {
       },
       async (err: AxiosError) => {
         const userStore = user()
+        const data = err.response?.data as { [k: string]: any }
 
         if (err.code !== 'ERR_CANCELED') this.showLoading && NProgress.done()
 
@@ -57,7 +59,12 @@ class Request {
             router.replace('/login')
             break
           case 403:
-            console.log('权限不足')
+            console.log('权限不足 403')
+            if (data?.redirect) {
+              await userStore.logoutAction(false)
+              this.cancelAllToken()
+              router.replace(data?.redirect)
+            }
             break
           case 404:
             console.log('request 404')
@@ -75,22 +82,33 @@ class Request {
     if (config.interceptors?.requestInterceptor) {
       config = config.interceptors.requestInterceptor(config)
     }
-    if (config.cancelTokenHook) {
-      config.cancelToken = new axios.CancelToken((c: Canceler) => {
-        config.cancelTokenHook?.(c)
-      })
-    }
+
+    config.cancelToken = new axios.CancelToken((c: Canceler) => {
+      this.cancelTokenList.set(config, c)
+      config.cancelTokenHook?.(c)
+    })
+
     this.showLoading = config.showLoading ?? DEFAULT_LOADING
 
     try {
       let res: T = await this.instance.request<any, T>(config)
+      this.cancelTokenList.delete(config)
+
       if (config.interceptors?.responseInterceptor) {
         res = config.interceptors.responseInterceptor(res)
       }
       return res
     } catch (err: any) {
+      this.cancelTokenList.delete(config)
       return Promise.reject(err)
     }
+  }
+
+  cancelAllToken() {
+    this.cancelTokenList.forEach((cancelToken) => {
+      cancelToken()
+    })
+    this.cancelTokenList.clear()
   }
 
   get<T = any>(config: RequestConfig<T>): Promise<T> {

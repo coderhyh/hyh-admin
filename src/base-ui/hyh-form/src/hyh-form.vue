@@ -14,41 +14,43 @@
             v-bind="{ ...(isDefaultCol(item.isDefaultCol) && defaultCol), ...formConfig.colAllProps, ...item.colProps }"
           >
             <el-form-item :label="item.label" :prop="item.modelValue">
-              <template v-if="item.type === 'input'">
-                <el-input
-                  v-model="formData[item.modelValue]"
-                  v-bind="item.inputProps?.config"
-                  v-on="item.inputProps?.event ?? {}"
-                />
-              </template>
-
-              <template v-else-if="item.type === 'select'">
-                <el-select
-                  v-model="formData[item.modelValue]"
-                  v-bind="item.selectProps?.config"
-                  v-on="item.selectProps?.event ?? {}"
-                >
-                  <el-option
-                    v-for="it in item.selectProps?.config?.option ?? []"
-                    :key="it.label"
-                    :label="it.label"
-                    :value="it.value"
-                    :disabled="it.disabled"
+              <slot :name="item.slotName || item.customSlotName" :row="item">
+                <template v-if="item.type === 'input'">
+                  <el-input
+                    v-model="formData[item.modelValue]"
+                    v-bind="item.inputProps?.config"
+                    v-on="item.inputProps?.event ?? {}"
                   />
-                </el-select>
-              </template>
+                </template>
 
-              <template v-else-if="item.type === 'tree'">
-                <el-tree
-                  style="width: 100%"
-                  v-bind="item.treeProps?.config"
-                  @check="(_, data: any) => handleCheckChange(data.checkedKeys, item)"
-                />
-              </template>
+                <template v-else-if="item.type === 'select'">
+                  <el-select
+                    v-model="formData[item.modelValue]"
+                    v-bind="item.selectProps?.config"
+                    v-on="item.selectProps?.event ?? {}"
+                  >
+                    <el-option
+                      v-for="it in item.selectProps?.config?.option ?? []"
+                      :key="it.label"
+                      :label="it.label"
+                      :value="it.value"
+                      :disabled="it.disabled"
+                    />
+                  </el-select>
+                </template>
 
-              <template v-else-if="item.type === 'switch'">
-                <el-switch v-model="formData[item.modelValue]" inline-prompt v-bind="item.switchProps?.config" />
-              </template>
+                <template v-else-if="item.type === 'tree'">
+                  <el-tree
+                    style="width: 100%"
+                    v-bind="item.treeProps?.config"
+                    @check="(_, data: any) => handleCheckChange(data.checkedKeys, item)"
+                  />
+                </template>
+
+                <template v-else-if="item.type === 'switch'">
+                  <el-switch v-model="formData[item.modelValue]" inline-prompt v-bind="item.switchProps?.config" />
+                </template>
+              </slot>
             </el-form-item>
           </el-col>
         </template>

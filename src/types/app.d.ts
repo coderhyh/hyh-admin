@@ -1,4 +1,5 @@
 declare namespace App {
+  type accountStatus = 0 | 1 | 2
   interface ITab {
     title: string
     path: string

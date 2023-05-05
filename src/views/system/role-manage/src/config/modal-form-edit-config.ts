@@ -51,8 +51,9 @@ export const modalFormEditConfig = (
     },
     {
       type: 'switch',
-      label: '是否冻结',
+      label: '状态',
       modelValue: 'status',
+      customSlotName: 'status',
       switchProps: {
         config: {
           activeText: '已冻结',

@@ -43,6 +43,12 @@ export const tableConfig: ITableConfig = {
       columnLabel: '角色级别'
     },
     {
+      prop: 'status',
+      columnLabel: '状态',
+      customSlotName: 'status',
+      columnProps: { sortable: false }
+    },
+    {
       prop: 'create_time',
       columnLabel: '创建时间',
       formatter: utcToLocale

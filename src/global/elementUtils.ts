@@ -11,7 +11,7 @@ export const elementUtils = {
     })
   },
   $messageBox(message: string, title = '提示') {
-    ElMessageBox.alert(message, title, {
+    return ElMessageBox.alert(message, title, {
       confirmButtonText: 'OK',
       dangerouslyUseHTMLString: true
     })

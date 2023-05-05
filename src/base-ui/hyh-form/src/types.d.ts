@@ -15,6 +15,8 @@ export interface IFormDataList {
   type: 'input' | 'select' | 'tree' | 'switch'
   modelValue: string
   label?: string
+  slotName?: string
+  customSlotName?: string
   rules?: FormRules['key']
   colProps?: InstanceType<typeof ElCol>['$props']
   isDefaultCol?: boolean

@@ -63,6 +63,21 @@ export const modalFormEditConfig = (roleOptions: App.ISelectOption[], grade: num
         }
       },
       rules: [{ required: true, message: '角色不能为空', trigger: 'blur' }]
+    },
+    {
+      type: 'switch',
+      label: '状态',
+      modelValue: 'status',
+      customSlotName: 'status',
+      switchProps: {
+        config: {
+          activeText: '已冻结',
+          activeColor: '#e47470',
+          inactiveText: '未冻结',
+          activeValue: 1,
+          inactiveValue: 0
+        }
+      }
     }
   ]
 })

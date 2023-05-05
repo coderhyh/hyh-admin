@@ -39,7 +39,7 @@ export const modalFormCreateConfig = (treeList: any[], grade: number): IFormConf
     },
     {
       type: 'switch',
-      label: '是否冻结',
+      label: '状态',
       modelValue: 'status',
       switchProps: {
         config: {

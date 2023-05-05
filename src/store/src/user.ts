@@ -30,6 +30,8 @@ export const user = defineStore(
       useFetchTryCatch(async () => {
         const res = await getUserInfo<{ code: number; userInfo: User.IUserInfo }>()
         userInfo.value = res.userInfo
+      }).catch((err) => {
+        elementUtils.$message((<any>err)?.response?.data?.message, 'error')
       })
 
     const userList = ref<User.IUserInfo[]>([])

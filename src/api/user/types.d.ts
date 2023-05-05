@@ -23,4 +23,5 @@ export interface IUpdateUserParams {
   username: string
   nickname: string
   role: string
+  status: App.AccountStatus
 }

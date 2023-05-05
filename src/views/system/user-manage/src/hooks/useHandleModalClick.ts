@@ -47,7 +47,8 @@ export const useHandleModalClick = (params: IParams) => {
         id: row.id,
         username: row.username,
         nickname: row.nickname,
-        role: row.role.id
+        role: row.role.id,
+        status: row.status
       }
     })
   }
@@ -65,8 +66,8 @@ export const useHandleModalClick = (params: IParams) => {
     useFetchTryCatch(async () => {
       let res: App.IDefaultObject = {}
       if (handleType.value === 'edit') {
-        const { id, username, nickname, role } = modalFormData.value
-        res = await updateUserInfo({ userId: id, username, nickname, role })
+        const { id, username, nickname, role, status } = modalFormData.value
+        res = await updateUserInfo({ userId: id, username, nickname, role, status })
       } else if (handleType.value === 'create') {
         const { username, password, nickname, role } = modalFormData.value
         res = await createUser({ username, password, nickname, role })

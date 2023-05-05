@@ -17,7 +17,11 @@ export const useDeleteRole = (
       global?.$message(res.message, res.code === 200 ? 'success' : 'error')
       pageTableRef.value?.fetchData()
     }).catch((err: any) => {
-      global?.$message(err.response.data.message, 'error')
+      const msg = `
+        ${err.response.data.message} <br />
+        ID: ${err.response.data.roleIds?.join(', ')}
+      `
+      elementUtils?.$messageBox(msg)
     })
 
   const handleDeleteClick = (row: Role.IRoleInfo) => deleteRoles([row.id])
@@ -27,9 +31,9 @@ export const useDeleteRole = (
       deleteRoles(selectRoles.map((e) => e.id))
     } else {
       const msg = `
-      有选择项级别权限不足:无法操作 <br />
-      当前角色级别: ${userInfo.value.role?.grade}
-    `
+        有选择项级别权限不足:无法操作 <br />
+        当前角色级别: ${userInfo.value.role?.grade}
+      `
       elementUtils.$messageBox(msg)
     }
   }
