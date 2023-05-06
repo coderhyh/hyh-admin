@@ -1,19 +1,5 @@
 declare namespace Menu {
-  export interface IMenuItemChildren {
-    id: number
-    page: string
-    icon?: any
-    status: number
-    route: string
-    control: string
-    handle: string
-    description: string
-    component?: any
-    type: string
-    parentId: number
-    requiredId?: any
-    children: any[]
-  }
+  type MenuType = 'menu' | 'directory' | 'permission'
 
   export interface IMenuListTree {
     id: number
@@ -21,13 +7,14 @@ declare namespace Menu {
     icon: string
     status: number
     route: string
-    control?: any
-    handle?: any
-    description?: any
+    routeName: string
+    control: string
+    handle: string
+    description: string
     component: string
-    type: string
-    parentId?: any
+    type: MenuType
+    parentId: number | null
     requiredId: number
-    children: IMenuItemChildren[]
+    children: IMenuListTree[]
   }
 }

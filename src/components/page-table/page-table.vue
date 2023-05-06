@@ -38,9 +38,7 @@
             </template>
           </el-popconfirm>
 
-          <el-button type="primary" size="small" :disabled="isDelete" @click="handleBatchDeletion">
-            批量操作
-          </el-button>
+          <el-button type="primary" size="small" @click="handleBatchDeletion"> 批量操作 </el-button>
           <el-button type="primary" size="small" :disabled="isInsert" @click="handleCreateClick"> 新建 </el-button>
         </section>
       </template>

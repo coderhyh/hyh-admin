@@ -21,11 +21,11 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 import { DEVICE } from '~/global/mapDeviceSize'
-import { routes } from '~/router/routes'
 const { isCollapse, winSize: size } = useStore('layout')
 const route = useRoute()
+const router = useRouter()
 
-const layoutChildren = routes[0].children
+const routes = router.getRoutes()
 
 const updateCollapse = () => {
   isCollapse.value = !isCollapse.value
@@ -38,7 +38,7 @@ const updateCollapse = () => {
 
 const breadcrumbArr = computed((): RouteRecordRaw[] => {
   const currentRouteName = route.meta.name
-  const currentRouteObj = getTreeParent(layoutChildren!, currentRouteName)
+  const currentRouteObj = getTreeParent(routes, currentRouteName)
   const currentRoute: RouteRecordRaw[] = readNodes(currentRouteObj, route.meta?.name as string)
   return currentRoute.filter((i) => i.meta?.name !== '控制台')
 })

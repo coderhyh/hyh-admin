@@ -13,15 +13,15 @@
       active-text-color="#409EFF"
       @select="menuSelect"
     >
-      <TreeMenu :menu-list="menuList"></TreeMenu>
+      <TreeMenu :menu-list="menus"></TreeMenu>
     </el-menu>
   </div>
 </template>
 
 <script setup lang="ts">
 import { DEVICE } from '~/global/mapDeviceSize'
-import { routes } from '~/router/routes'
-const menuList = ref(routes[0].children)
+
+const { menus } = useStore('menu')
 const { isCollapse, winSize: size } = useStore('layout')
 
 const route = useRoute()

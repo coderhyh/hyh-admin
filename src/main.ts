@@ -10,8 +10,11 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import registerProperty from './global/registerProperty'
 import router from './router'
-import pinia from './store'
+import pinia, { menu, user } from './store'
 
-createApp(App).use(registerProperty).use(pinia).use(router).mount('#app')
-
-console.log(import.meta.glob(`~/views/**/index.ts`))
+const app = createApp(App)
+app.use(registerProperty)
+app.use(pinia)
+user().token && (await menu().fetchMenus())
+app.use(router)
+app.mount('#app')

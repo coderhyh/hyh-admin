@@ -1,6 +1,6 @@
 import { AutoToRefs, ToRef } from 'vue'
 
-import { layout, role, user } from '~/store'
+import { layout, menu, role, user } from '~/store'
 
 declare module 'vue' {
   export type AutoToRefs<T> = {
@@ -8,7 +8,7 @@ declare module 'vue' {
   }
 }
 
-const storeExports = { layout, user, role }
+const storeExports = { layout, menu, user, role }
 
 export function useStore<T extends keyof typeof storeExports>(storeName: T) {
   const store = storeExports[storeName]()
