@@ -1,6 +1,6 @@
 import { Ref } from 'vue'
 
-import { getPermissionListSelect } from '~/api/permission'
+import { getPermissionListSelect } from '~/api/menu'
 import { createRole, updateRoleInfo } from '~/api/role'
 import { ICreateRole } from '~/api/role/types'
 import { IFormConfig } from '~/base-ui/hyh-form'
@@ -23,11 +23,11 @@ export const useHandleModalClick = (params: IParams) => {
     create: modalFormCreateConfig(<any>[], curRoleGrade.value),
     edit: modalFormEditConfig(<any>[], [], curRoleGrade.value)
   }
-  let treeList: IPermission.IListSelect[] = []
+  let treeList: Menu.IMenuListTree[] = []
   onActivated(getPermissionList)
   function getPermissionList() {
-    getPermissionListSelect<{ code: number; permissionListSelect: IPermission.IListSelect[] }>().then((res) => {
-      treeList = res?.permissionListSelect ?? []
+    getPermissionListSelect<{ code: number; menuTree: Menu.IMenuListTree[] }>().then((res) => {
+      treeList = res?.menuTree ?? []
       modalConfig.create = modalFormCreateConfig(treeList, curRoleGrade.value)
     })
   }

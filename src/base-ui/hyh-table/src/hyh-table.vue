@@ -13,7 +13,6 @@
       v-loading="isLoading"
       :data="tableData"
       highlight-current-row
-      border
       v-bind="tableConfig.tableProps"
       @selection-change="handleSelectionChange"
       @sort-change="handleSortChange"

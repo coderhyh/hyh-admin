@@ -86,7 +86,7 @@ export const modalFormEditConfig = (
           nodeKey: 'id',
           accordion: true,
           props: {
-            label: (data, node) => (data.children ? data.page : data.description),
+            label: 'page',
             children: 'children'
           }
         }

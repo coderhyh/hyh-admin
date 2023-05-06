@@ -55,7 +55,8 @@ class Request {
         switch (err.response?.status) {
           case 401:
             await userStore.logoutAction(false)
-            elementUtils.$message('登录失效, 请重新登录')
+            this.cancelAllToken()
+            // elementUtils.$message('登录失效, 请重新登录')
             router.replace('/login')
             break
           case 403:

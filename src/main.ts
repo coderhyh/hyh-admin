@@ -13,3 +13,5 @@ import router from './router'
 import pinia from './store'
 
 createApp(App).use(registerProperty).use(pinia).use(router).mount('#app')
+
+console.log(import.meta.glob(`~/views/**/index.ts`))

@@ -6,7 +6,4 @@
 
 <script setup lang="ts"></script>
 
-<style scoped>
-.permission-manage {
-}
-</style>
+<style scoped></style>
