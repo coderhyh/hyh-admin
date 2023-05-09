@@ -7,10 +7,9 @@ export const modalFormEditConfig = (
   defaultCheckedKeys: number[] = [],
   grade: number
 ): IFormConfig => ({
-  labelPosition: 'left',
+  labelPosition: 'right',
   formProps: {
-    labelWidth: '70px',
-    hideRequiredAsterisk: true
+    labelWidth: '80px'
   },
   colAllProps: {
     xs: 50,
@@ -72,7 +71,8 @@ export const modalFormEditConfig = (
         config: {
           option: roleGradeOptions.map((e) => ({ ...e, disabled: <number>e.value < grade }))
         }
-      }
+      },
+      rules: [{ required: true, message: '级别不能为空', trigger: 'blur' }]
     },
     {
       type: 'tree',

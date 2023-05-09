@@ -1,10 +1,11 @@
-import { RouteRecordName, RouteRecordRaw } from 'vue-router'
+import { RouteRecordRaw } from 'vue-router'
 
-import { getMenus } from '~/api/menu'
+import { getMenuListTree, getMenus } from '~/api/menu'
+import { elementUtils } from '~/global/elementUtils'
 import router from '~/router'
 
 export const menu = defineStore('menu', () => {
-  const menus = ref<RouteRecordRaw[]>([
+  const defaultMenus = [
     {
       path: '',
       name: 'Index',
@@ -14,25 +15,38 @@ export const menu = defineStore('menu', () => {
         icon: 'clarity:dashboard-solid'
       }
     }
-  ])
+  ]
+  const menus = ref<RouteRecordRaw[]>(defaultMenus)
+  const menuListTree = ref<Menu.IMenuListTree[]>([])
+
   const removeRouteList = ref<Function[]>([])
   const routeAllPathToCompMap = Object.entries(import.meta.glob(`~/views/**/index.ts`))
 
-  const fetchMenus = async () => {
-    const res = await getMenus<{ code: number; menu: Menu.IMenuListTree[] }>()
-    const routes = createRoutesFromMenu(res.menu)
-    menus.value.push(...routes)
-    addRoute()
+  const fetchMenuListTree = async () => {
+    try {
+      const res = await getMenuListTree<{ code: number; menuTree: Menu.IMenuListTree[] }>()
+      menuListTree.value = res.menuTree
+      return res.menuTree
+    } catch (error) {
+      elementUtils.$message((<any>error)?.response?.data?.message, 'error')
+      return []
+    }
   }
+
+  const fetchMenus = async () =>
+    useFetchTryCatch(async () => {
+      const res = await getMenus<{ code: number; menu: Menu.IMenuListTree[] }>()
+      const routes = createRoutesFromMenu(res.menu)
+      menus.value = [...defaultMenus, ...routes]
+      addRoute()
+    })
 
   const addRoute = () => {
     menus.value.forEach((route) => removeRouteList.value.push(router.addRoute('Layout', route)))
-    console.log(router.getRoutes())
   }
 
   const removeRoute = () => {
     removeRouteList.value.forEach((removeRoute) => removeRoute())
-    console.log(router.getRoutes())
   }
 
   function createRoutesFromMenu(menuItems: Menu.IMenuListTree[]) {
@@ -46,7 +60,8 @@ export const menu = defineStore('menu', () => {
         component: routeAllPathToCompMap.find(([path]) => path.includes(item.component))?.[1],
         meta: {
           name: item.page,
-          icon: item.icon
+          icon: item.icon,
+          type: item.type
         },
         children: isChildren ? createRoutesFromMenu(item.children) : []
       }
@@ -55,5 +70,5 @@ export const menu = defineStore('menu', () => {
     return routes
   }
 
-  return { menus, removeRoute, fetchMenus }
+  return { menus, menuListTree, removeRoute, fetchMenus, fetchMenuListTree }
 })

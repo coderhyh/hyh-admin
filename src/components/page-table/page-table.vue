@@ -124,7 +124,7 @@ watch(winSize, () => {
 const { pageParams, pageTotal } = useStore(props.pageType)
 const _tableData = ref<any[]>([])
 const handlePageChange = async () => {
-  await fetchData()
+  props.tableConfig.columnUnifyConfig?.sortable === 'custom' && (await fetchData())
   document.querySelector('#layout-main')?.scrollTo(0, 0)
 }
 const fetchData = async () => {

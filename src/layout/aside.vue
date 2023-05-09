@@ -51,8 +51,12 @@ watch(size, handleResize, { immediate: true, deep: true })
 </script>
 
 <style lang="less" scoped>
+::-webkit-scrollbar-track {
+  background: var(--hyh-aside-bg);
+}
+
 .aside {
-  overflow: hidden;
+  overflow-x: hidden;
   position: relative;
   max-width: 250px;
   height: 100vh;

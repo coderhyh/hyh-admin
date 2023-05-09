@@ -8,13 +8,13 @@ declare namespace Menu {
     status: number
     route: string
     routeName: string
-    control: string
-    handle: string
-    description: string
+    permission: string
     component: string
     type: MenuType
     parentId: number | null
     requiredId: number
+    requiredText: string
+    order: number
     children: IMenuListTree[]
   }
 }

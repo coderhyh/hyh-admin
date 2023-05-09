@@ -21,5 +21,11 @@ export const usePageModal = () => {
     modalFormData.value = c.formData
     isShowDialog.value = true
   }
-  return { title, handleType, isShowDialog, modalFormData, handleClick }
+
+  const updateModalFormConfig = (config: IFormConfig, formData: App.IDefaultObject) => {
+    modalFormConfig.value = config
+    modalFormData.value = formData
+  }
+
+  return { title, handleType, isShowDialog, modalFormData, handleClick, updateModalFormConfig }
 }

@@ -1,6 +1,6 @@
 <template>
   <template v-for="menu in menuList" :key="menu.path">
-    <el-sub-menu v-if="menu.children && menu.children.length > 0" :index="menu.path">
+    <el-sub-menu v-if="menu.meta?.type === 'directory'" :index="menu.path">
       <template #title>
         <Icon :icon="menu.meta?.icon" size="30" style="margin-right: 10px" />
         <span>{{ menu.meta?.name }}</span>

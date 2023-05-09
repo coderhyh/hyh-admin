@@ -47,8 +47,45 @@
                   />
                 </template>
 
+                <template v-else-if="item.type === 'treeSelect'">
+                  <el-tree-select v-model="formData[item.modelValue]" v-bind="item.treeSelectProps?.config">
+                    <template #default="{ data }">
+                      <span>{{ data.page }}</span>
+                      <span v-if="data.children?.length && item.isShowTreeChildrenTotal">
+                        ({{ data.children.length }})
+                      </span>
+                    </template>
+                  </el-tree-select>
+                </template>
+
                 <template v-else-if="item.type === 'switch'">
                   <el-switch v-model="formData[item.modelValue]" inline-prompt v-bind="item.switchProps?.config" />
+                </template>
+
+                <template v-else-if="item.type === 'cascader'">
+                  <el-cascader
+                    v-model="formData[item.modelValue]"
+                    :options="item.cascaderProps?.config?.options"
+                    v-bind="item.cascaderProps?.config"
+                    v-on="item.cascaderProps?.event ?? {}"
+                  >
+                    <template #default="{ node, data }">
+                      <span>{{ data[item.cascaderProps?.config?.props?.label ?? 'label'] }}</span>
+                      <span v-if="!node.isLeaf && item.isShowCascaderTotal"> ({{ data.children.length }}) </span>
+                    </template>
+                  </el-cascader>
+                </template>
+
+                <template v-else-if="item.type === 'radioGroup'">
+                  <el-radio-group v-model="formData[item.modelValue]" v-on="item.radioGroupProps?.event ?? {}">
+                    <el-radio
+                      v-for="it in item.radioGroupProps?.config?.option ?? []"
+                      :key="it.value"
+                      :label="it.value"
+                      :disabled="it.disabled"
+                      >{{ it.label }}</el-radio
+                    >
+                  </el-radio-group>
                 </template>
               </slot>
             </el-form-item>
@@ -114,7 +151,8 @@ const handleCheckChange = (keys: (number | undefined)[], item: IFormDataList) =>
   }
 
   :deep(.el-form) {
-    .el-form-item__content .el-select {
+    .el-form-item__content .el-select,
+    .el-cascader {
       width: 100%;
     }
   }

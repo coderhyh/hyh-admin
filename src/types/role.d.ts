@@ -15,10 +15,7 @@ declare namespace Role {
   interface IRolePermission {
     id: number
     page: string
-    route: string
-    control: string
-    handler: string
-    description: string
+    permission: string
   }
 
   interface IRoleListSelect {

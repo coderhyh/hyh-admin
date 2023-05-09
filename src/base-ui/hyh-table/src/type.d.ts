@@ -16,7 +16,7 @@ export interface ITableConfig {
 export interface ITableListData {
   slotName?: string
   customSlotName?: string
-  formatter?: (row: any) => string | number
+  formatter?: (prop: any, row: any) => string | number
   prop?: string
   columnLabel: string
   columnProps?: InstanceType<typeof ElTableColumn>['$props']

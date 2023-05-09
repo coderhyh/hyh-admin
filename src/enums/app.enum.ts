@@ -3,3 +3,9 @@ export enum ACCOUNT_STATUS {
   FROZEN = 1,
   ADMIN = 2
 }
+
+export enum MENU_TYPE {
+  permission = '权限',
+  menu = '菜单',
+  directory = '目录'
+}

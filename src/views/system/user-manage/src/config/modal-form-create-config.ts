@@ -1,9 +1,9 @@
 import { IFormConfig } from '~/base-ui/hyh-form'
 
 export const modalFormCreateConfig = (roleOptions: App.ISelectOption[], grade: number): IFormConfig => ({
-  labelPosition: 'left',
+  labelPosition: 'right',
   formProps: {
-    labelWidth: '70px'
+    labelWidth: '80px'
   },
   colAllProps: {
     xs: 50,

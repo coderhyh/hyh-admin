@@ -1,6 +1,5 @@
 import { Ref } from 'vue'
 
-import { getMenuListTree } from '~/api/menu'
 import { createRole, updateRoleInfo } from '~/api/role'
 import { ICreateRole } from '~/api/role/types'
 import { IFormConfig } from '~/base-ui/hyh-form'
@@ -17,25 +16,23 @@ export const useHandleModalClick = (params: IParams) => {
   const { curRoleGrade, pageTableRef } = params
   const { title, handleType, isShowDialog, modalFormData, handleClick } = usePageModal()
   const global = getCurrentInstance()?.proxy
+  const { fetchMenuListTree, menuListTree, fetchMenus } = useStore('menu')
 
   // 请求权限选择项
   const modalConfig: { [k in 'create' | 'edit']: IFormConfig } = {
     create: modalFormCreateConfig(<any>[], curRoleGrade.value),
     edit: modalFormEditConfig(<any>[], [], curRoleGrade.value)
   }
-  let treeList: Menu.IMenuListTree[] = []
   onActivated(getPermissionList)
-  function getPermissionList() {
-    getMenuListTree<{ code: number; menuTree: Menu.IMenuListTree[] }>().then((res) => {
-      treeList = res?.menuTree ?? []
-      modalConfig.create = modalFormCreateConfig(treeList, curRoleGrade.value)
-    })
+  async function getPermissionList() {
+    const menuTree = await fetchMenuListTree()
+    modalConfig.create = modalFormCreateConfig(menuTree, curRoleGrade.value)
   }
 
   // modal click
   const handleEditClick = (row: Role.IRoleInfo) => {
     const permissionList = row.permission.map((e) => e.id)
-    modalConfig.edit = modalFormEditConfig(treeList, permissionList, curRoleGrade.value)
+    modalConfig.edit = modalFormEditConfig(menuListTree.value, permissionList, curRoleGrade.value)
     handleClick({
       type: 'edit',
       config: modalConfig.edit,
@@ -51,7 +48,7 @@ export const useHandleModalClick = (params: IParams) => {
     })
   }
   const handleCreateClick = () => {
-    // modalConfig.edit = modalFormCreateConfig(treeList, curRoleGrade.value)
+    // modalConfig.edit = modalFormCreateConfig(menuListTree.value, curRoleGrade.value)
     handleClick({
       type: 'create',
       config: modalConfig.create,
@@ -75,7 +72,7 @@ export const useHandleModalClick = (params: IParams) => {
       } else if (handleType.value === 'create') {
         res = await createRole(modalFormData.value as ICreateRole)
       }
-
+      await fetchMenus()
       if (res.code === 200) isShowDialog.value = false
       global?.$message(res.message, res.code === 200 ? 'success' : 'error')
       pageTableRef.value?.fetchData()

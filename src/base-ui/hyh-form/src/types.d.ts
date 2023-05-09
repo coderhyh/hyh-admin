@@ -1,4 +1,16 @@
-import type { ElForm, ElCol, ElInput, ElSelect, ElRow, FormRules, ElTree, ElSwitch } from 'element-plus'
+import type {
+  ElForm,
+  ElCol,
+  ElInput,
+  ElSelect,
+  ElRow,
+  FormRules,
+  ElTree,
+  ElSwitch,
+  ElCascader,
+  ElRadioGroup,
+  ElTreeSelect
+} from 'element-plus'
 
 export interface IFormConfig {
   labelPosition?: 'left' | 'right' | 'top'
@@ -12,14 +24,17 @@ export interface IFormConfig {
 type defaultEventType = { [k: string]: (...args: any[]) => void }
 
 export interface IFormDataList {
-  type: 'input' | 'select' | 'tree' | 'switch'
+  type?: 'input' | 'select' | 'tree' | 'switch' | 'cascader' | 'radioGroup' | 'treeSelect'
   modelValue: string
+  defaultValue?: any
   label?: string
   slotName?: string
   customSlotName?: string
   rules?: FormRules['key']
   colProps?: InstanceType<typeof ElCol>['$props']
   isDefaultCol?: boolean
+  isShowCascaderTotal?: boolean
+  isShowTreeChildrenTotal?: boolean
   selectProps?: {
     config?: { option: { label: string; value: string | number; disabled?: boolean }[] } & InstanceType<
       typeof ElSelect
@@ -34,8 +49,22 @@ export interface IFormDataList {
     config?: InstanceType<typeof ElTree>['$props']
     event?: defaultEventType
   }
+  treeSelectProps?: {
+    config?: InstanceType<typeof ElTreeSelect>['$props']
+    event?: defaultEventType
+  }
   switchProps?: {
     config?: InstanceType<typeof ElSwitch>['$props']
+    event?: defaultEventType
+  }
+  cascaderProps?: {
+    config?: InstanceType<typeof ElCascader>['$props']
+    event?: defaultEventType
+  }
+  radioGroupProps?: {
+    config?: { option: { label: string; value: string | number; disabled?: boolean }[] } & InstanceType<
+      typeof ElRadioGroup
+    >['$props']
     event?: defaultEventType
   }
 }

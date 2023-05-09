@@ -30,7 +30,7 @@ export const useHandleModalClick = (params: IParams) => {
         res?.roleListSelect.map((e) => ({
           label: String(e.role_name),
           value: e.id,
-          disabled: Boolean(e.status)
+          disabled: e.status === 1
         })) ?? []
       modalConfig.create = modalFormCreateConfig(roleOptions, curRoleGrade.value)
       modalConfig.edit = modalFormEditConfig(roleOptions, curRoleGrade.value)
@@ -54,6 +54,7 @@ export const useHandleModalClick = (params: IParams) => {
   }
   const handleCreateClick = () => {
     modalConfig.edit = modalFormCreateConfig(roleOptions, curRoleGrade.value)
+
     handleClick({
       type: 'create',
       config: modalConfig.create,

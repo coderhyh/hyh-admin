@@ -3,10 +3,9 @@ import { IFormConfig } from '~/base-ui/hyh-form'
 import { roleGradeOptions } from './role-grade-options'
 
 export const modalFormCreateConfig = (treeList: any[], grade: number): IFormConfig => ({
-  labelPosition: 'left',
+  labelPosition: 'right',
   formProps: {
-    labelWidth: '70px',
-    hideRequiredAsterisk: true
+    labelWidth: '80px'
   },
   colAllProps: {
     xs: 50,
@@ -59,12 +58,14 @@ export const modalFormCreateConfig = (treeList: any[], grade: number): IFormConf
         config: {
           option: roleGradeOptions.map((e) => ({ ...e, disabled: <number>e.value < grade }))
         }
-      }
+      },
+      rules: [{ required: true, message: '级别不能为空', trigger: 'blur' }]
     },
     {
       type: 'tree',
       label: '权限选择',
       modelValue: 'permissionList',
+      defaultValue: [],
       treeProps: {
         config: {
           showCheckbox: true,
@@ -72,7 +73,7 @@ export const modalFormCreateConfig = (treeList: any[], grade: number): IFormConf
           nodeKey: 'id',
           accordion: true,
           props: {
-            label: (data, node) => (data.children ? data.page : data.description),
+            label: 'page',
             children: 'children'
           }
         }

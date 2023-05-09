@@ -1,28 +1,30 @@
 <template>
-  <el-dialog
-    v-model="_isShowDialog"
-    destroy-on-close
-    :title="title"
-    width="450px"
-    center
-    draggable
-    :lock-scroll="false"
-  >
-    <HyhForm ref="hyhFormRef" v-bind="{ formConfig: modalFormConfig! }" v-model="_formData" @on-submit="handleSubmit">
-      <template #footer>
-        <span>
-          <el-button @click="_isShowDialog = false"> 关闭 </el-button>
-          <el-button type="primary" @click="handleSubmit"> 提交 </el-button>
-        </span>
-      </template>
-
-      <template v-for="item in customSlotNames" :key="item.customSlotName" #[item.customSlotName!]="{ row }">
-        <template v-if="item.customSlotName">
-          <slot :name="item.customSlotName" :row="row"></slot>
+  <div class="dialog">
+    <el-dialog
+      v-model="_isShowDialog"
+      destroy-on-close
+      :title="title"
+      :width="width"
+      center
+      draggable
+      :lock-scroll="false"
+    >
+      <HyhForm ref="hyhFormRef" v-bind="{ formConfig: modalFormConfig! }" v-model="_formData" @on-submit="handleSubmit">
+        <template #footer>
+          <span>
+            <el-button @click="_isShowDialog = false"> 关闭 </el-button>
+            <el-button type="primary" @click="handleSubmit"> 提交 </el-button>
+          </span>
         </template>
-      </template>
-    </HyhForm>
-  </el-dialog>
+
+        <template v-for="item in customSlotNames" :key="item.customSlotName" #[item.customSlotName!]="{ row }">
+          <template v-if="item.customSlotName">
+            <slot :name="item.customSlotName" :row="row"></slot>
+          </template>
+        </template>
+      </HyhForm>
+    </el-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -37,10 +39,12 @@ const props = withDefaults(
     show?: boolean
     formData: App.IDefaultObject
     title?: string
+    width?: string
   }>(),
   {
     show: false,
-    title: ''
+    title: '',
+    width: '450px'
   }
 )
 const emit = defineEmits<{
@@ -66,8 +70,15 @@ const handleSubmit = async () => {
 }
 </script>
 
-<style scoped>
-:deep(.footer) {
-  justify-content: center !important;
+<style scoped lang="less">
+.dialog {
+  :deep(.footer) {
+    justify-content: center !important;
+  }
+
+  // :deep(.el-dialog__body) {
+  //   overflow-y: scroll;
+  //   height: 500px !important;
+  // }
 }
 </style>

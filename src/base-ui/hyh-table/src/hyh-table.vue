@@ -41,7 +41,7 @@
         >
           <template #default="scope">
             <slot :name="item.slotName || item.customSlotName" :row="scope.row">
-              {{ item.formatter ? item.formatter(scope.row[item.prop!]) : scope.row[item.prop!] }}
+              {{ item.formatter ? item.formatter(scope.row[item.prop!], scope.row) : scope.row[item.prop!] }}
             </slot>
           </template>
         </el-table-column>
