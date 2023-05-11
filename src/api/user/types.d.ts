@@ -25,3 +25,8 @@ export interface IUpdateUserParams {
   role: string
   status: App.AccountStatus
 }
+
+export interface IResetPasswordParams {
+  userId: string | number
+  newPassword: string | number
+}

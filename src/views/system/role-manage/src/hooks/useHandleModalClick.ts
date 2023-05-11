@@ -1,5 +1,6 @@
 import { Ref } from 'vue'
 
+import { getMenuListTreeSelect } from '~/api/menu'
 import { createRole, updateRoleInfo } from '~/api/role'
 import { ICreateRole } from '~/api/role/types'
 import { IFormConfig } from '~/base-ui/hyh-form'
@@ -16,23 +17,25 @@ export const useHandleModalClick = (params: IParams) => {
   const { curRoleGrade, pageTableRef } = params
   const { title, handleType, isShowDialog, modalFormData, handleClick } = usePageModal()
   const global = getCurrentInstance()?.proxy
-  const { fetchMenuListTree, menuListTree, fetchMenus } = useStore('menu')
+  const { fetchMenus } = useStore('menu')
 
   // 请求权限选择项
   const modalConfig: { [k in 'create' | 'edit']: IFormConfig } = {
     create: modalFormCreateConfig(<any>[], curRoleGrade.value),
     edit: modalFormEditConfig(<any>[], [], curRoleGrade.value)
   }
-  onActivated(getPermissionList)
-  async function getPermissionList() {
-    const menuTree = await fetchMenuListTree()
-    modalConfig.create = modalFormCreateConfig(menuTree, curRoleGrade.value)
+  onActivated(fetchMenuListTreeSelect)
+  let menuTreeSelect: Menu.IMenuListTree[] = []
+  async function fetchMenuListTreeSelect() {
+    const res = await getMenuListTreeSelect<{ code: number; menuTreeSelect: Menu.IMenuListTree[] }>()
+    menuTreeSelect = res.menuTreeSelect
+    modalConfig.create = modalFormCreateConfig(res.menuTreeSelect, curRoleGrade.value)
   }
 
   // modal click
   const handleEditClick = (row: Role.IRoleInfo) => {
     const permissionList = row.permission.map((e) => e.id)
-    modalConfig.edit = modalFormEditConfig(menuListTree.value, permissionList, curRoleGrade.value)
+    modalConfig.edit = modalFormEditConfig(menuTreeSelect, permissionList, curRoleGrade.value)
     handleClick({
       type: 'edit',
       config: modalConfig.edit,

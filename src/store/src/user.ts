@@ -8,7 +8,7 @@ export const user = defineStore(
   'user',
   () => {
     const { tabs } = useStore('layout')
-    const { removeRoute, fetchMenus } = useStore('menu')
+    const { removeRoutes, fetchMenus } = useStore('menu')
     const token = ref<string>()
     const userInfo = ref<Partial<User.IUserInfo>>({})
 
@@ -26,7 +26,7 @@ export const user = defineStore(
         tabs.value = [defaultTab]
         userInfo.value = {}
         token.value = ''
-        removeRoute()
+        removeRoutes()
       })
 
     const getUserInfoAction = async () =>

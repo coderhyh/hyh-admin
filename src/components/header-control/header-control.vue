@@ -7,6 +7,7 @@
       </template>
       <ul class="header-control-menu">
         <li>你好! {{ userInfo.nickname }}</li>
+        <!-- <li @click="logout">个人信息</li> -->
         <li @click="logout">退出登录</li>
       </ul>
     </el-popover>

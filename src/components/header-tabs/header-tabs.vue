@@ -37,6 +37,8 @@ const { tabs, addTab, removeTab, removeOtherTab, removeRightTab, removeAllTab } 
 const route = useRoute()
 const router = useRouter()
 
+const tab = { title: route.meta.name as string, path: route.path }
+addTab(tab)
 // 更新头部tabs
 onBeforeRouteUpdate((to, from, next) => {
   const tab = { title: to.meta.name as string, path: to.path }

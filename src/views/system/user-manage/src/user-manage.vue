@@ -12,6 +12,7 @@
       @on-edit-click="handleEditClick"
       @on-create-click="handleCreateClick"
       @on-batch-delete="handleBatchDelete"
+      @on-reset-password="handleResetPassword"
     >
       <template #status="{ row }">
         <el-switch
@@ -52,7 +53,9 @@
 </template>
 
 <script setup lang="ts">
-import { updateUserStatus } from '~/api/user'
+import { ElMessageBox } from 'element-plus'
+
+import { resetPassword, updateUserStatus } from '~/api/user'
 import PageTable from '~/components/page-table/page-table.vue'
 import { ACCOUNT_STATUS } from '~/enums'
 
@@ -86,13 +89,34 @@ const { title, isShowDialog, modalFormData, handleEditClick, handleCreateClick, 
 const handleSwitchChange = (row: User.IUserInfo) => async () => {
   if (!row.id) return false
   try {
-    const res: App.IDefaultResult = await updateUserStatus({ userId: String(row.id), status: Number(!row.status) })
+    const res = await updateUserStatus<App.IDefaultResult>({
+      userId: String(row.id),
+      status: <App.AccountStatus>Number(!row.status)
+    })
     global?.$message(res.message, res.code === 200 ? 'success' : 'error')
     if (res.code === 200) pageTableRef.value?.fetchData()
     return res.code === 200
   } catch (err) {
     global?.$message((<any>err).response.data.message, 'error')
     return false
+  }
+}
+
+// 重置密码
+const handleResetPassword = async (userItem: User.IUserInfo) => {
+  try {
+    const res = await ElMessageBox.prompt(`请输入'${userItem.username}'的新密码`, '重置密码', {
+      confirmButtonText: '提交',
+      cancelButtonText: '关闭',
+      inputPattern: /^[\da-zA-z_.]{6,16}$/,
+      inputErrorMessage: '密码需要为6-16位的字母/数字/_/.'
+    })
+    console.log(res)
+    const resetPwdRes = await resetPassword<App.IDefaultResult>({ userId: userItem.id, newPassword: res.value })
+    global?.$message(resetPwdRes.message, resetPwdRes.code === 200 ? 'success' : 'error')
+  } catch (error) {
+    console.log(error)
+    global?.$message((<any>error).response.data.message, 'error')
   }
 }
 </script>

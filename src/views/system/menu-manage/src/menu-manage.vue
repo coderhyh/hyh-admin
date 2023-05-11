@@ -8,18 +8,16 @@
       edit-text="编辑"
       @on-edit-click="handleEditClick"
       @on-create-click="handleCreateClick"
+      @on-delete-click="handleDeleteClick"
+      @on-batch-delete="handleBatchDelete"
     >
       <template #icon="{ row }">
-        <Icon v-if="row.icon" :icon="row.icon" size="20" />
+        <Icon v-if="row.icon" ref="iconRef" :icon="row.icon" size="20" />
       </template>
       <template #status="{ row }">
         <el-tag :type="row.status ? 'danger' : 'success'">{{ getStatusText(row.status) }}</el-tag>
       </template>
     </PageTable>
-    <!--
-      @on-delete-click="handleDeleteClick"
-      @on-batch-delete="handleBatchDelete"
-      -->
     <PageModal
       v-model:show="isShowDialog"
       v-model:form-data="modalFormData"
@@ -32,7 +30,7 @@
           <template v-if="modalFormData[row.modelValue]" #prefix>
             <Icon :icon="modalFormData[row.modelValue]" size="20" />
           </template>
-          <el-option v-for="item in icons" :key="item" :value="item">
+          <el-option v-for="item in iconRef?.icons" :key="item" :value="item">
             <Icon :icon="item" size="20" />
           </el-option>
         </el-select>
@@ -42,18 +40,21 @@
 </template>
 
 <script setup lang="ts">
-import { icons } from '~/assets/icons'
+import Icon from '~/base-ui/Icon/Icon.vue'
 import PageTable from '~/components/page-table/page-table.vue'
 
 import { tableConfig } from './config'
-import { useHandleModalClick } from './hooks'
+import { useDeleteMenu, useHandleModalClick } from './hooks'
 
 const { fetchMenuListTree } = useStore('menu')
 const { winSize } = useStore('layout')
-const global = getCurrentInstance()?.proxy
 const pageTableRef = ref<InstanceType<typeof PageTable>>()
+const iconRef = ref<InstanceType<typeof Icon>>()
 
 const getStatusText = (status: App.AccountStatus) => (status === 0 ? '正常' : '冻结')
+
+// 删除角色
+const [handleDeleteClick, handleBatchDelete] = useDeleteMenu(pageTableRef)
 
 // modal
 const { title, isShowDialog, modalFormData, handleEditClick, handleCreateClick, handleModalSubmit } =

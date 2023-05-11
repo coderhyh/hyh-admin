@@ -1,2 +1,2 @@
-export * from './useDeleteRole'
+export * from './useDeleteMenu'
 export * from './useHandleModalClick'

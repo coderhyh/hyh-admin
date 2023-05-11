@@ -1,6 +1,12 @@
 import request from '~/service'
 
-import { ICreateUserParams, IGetUserListParams, IUpdateUserParams, IUserLoginParams } from './types'
+import {
+  ICreateUserParams,
+  IGetUserListParams,
+  IResetPasswordParams,
+  IUpdateUserParams,
+  IUserLoginParams
+} from './types'
 
 export const createUser = <T>(data: ICreateUserParams) =>
   request.post<T>({
@@ -25,6 +31,9 @@ export const getUserList = <T>(data: IGetUserListParams) =>
     url: `/user/list`,
     data
   })
+
+export const resetPassword = <T>(data: IResetPasswordParams) =>
+  request.patch<T>({ url: `/user/reset-password/${data.userId}`, data })
 
 export const userExit = <T>() => request.delete<T>({ url: '/user/exit' })
 

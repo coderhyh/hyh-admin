@@ -13,7 +13,15 @@
           <el-col
             v-bind="{ ...(isDefaultCol(item.isDefaultCol) && defaultCol), ...formConfig.colAllProps, ...item.colProps }"
           >
-            <el-form-item :label="item.label" :prop="item.modelValue">
+            <el-form-item :label="item.label" :prop="item.modelValue" v-bind="item.formItemProps">
+              <template v-if="item.question" #label="{ label }">
+                <section class="flex items-center">
+                  <el-tooltip effect="light" :content="item.question" placement="top-start">
+                    <Icon icon="material-symbols:help-rounded" size="14" class="mr-3px cursor-pointer" />
+                  </el-tooltip>
+                  <span>{{ label }}</span>
+                </section>
+              </template>
               <slot :name="item.slotName || item.customSlotName" :row="item">
                 <template v-if="item.type === 'input'">
                   <el-input

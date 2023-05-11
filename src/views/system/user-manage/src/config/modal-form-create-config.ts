@@ -65,7 +65,7 @@ export const modalFormCreateConfig = (roleOptions: App.ISelectOption[], grade: n
         config: {
           option: roleOptions.map((e) => ({
             ...e,
-            disabled: e.disabled ? e.disabled : <number>e.value < grade
+            disabled: e.disabled ? e.disabled : e.grade < grade
           }))
         }
       },

@@ -4,6 +4,8 @@ import { ICreateMenuParams } from './types'
 
 export const getMenuListTree = <T>() => request.get<T>({ url: '/menu/list-tree' })
 
+export const getMenuListTreeSelect = <T>() => request.get<T>({ url: '/menu/list-tree-select' })
+
 export const getMenus = <T>() => request.get<T>({ url: '/menu' })
 
 export const setMenu = <T>(data: ICreateMenuParams, isCreate = true, menuId?: number) =>
@@ -24,3 +26,6 @@ export const setMenu = <T>(data: ICreateMenuParams, isCreate = true, menuId?: nu
       order: data.order
     }
   })
+
+export const deleteMenu = <T>(menuIds: number[]) =>
+  request.delete<T>({ url: `/menu/delete-menu`, data: { menuIds }, showLoading: true })

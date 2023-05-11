@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import '~/assets/icons'
 const props = defineProps<{
   icon?: string | unknown
   size?: string
@@ -15,6 +14,19 @@ const className = computed(() => {
   const { icon } = props
   return [icon || 'carbon:unknown']
 })
+const icons = [
+  'clarity:dashboard-solid',
+  'mdi:cog',
+  'material-symbols:settings-account-box',
+  'pixelarticons:book-open',
+  'medical-icon:i-physical-therapy',
+  'material-symbols:manage-accounts',
+  'mdi:list-box',
+  'ion:ellipsis-horizontal',
+  'mdi:refresh',
+  'material-symbols:help-rounded'
+]
+defineExpose({ icons })
 </script>
 
 <style scoped></style>

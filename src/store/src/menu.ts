@@ -45,7 +45,7 @@ export const menu = defineStore('menu', () => {
     menus.value.forEach((route) => removeRouteList.value.push(router.addRoute('Layout', route)))
   }
 
-  const removeRoute = () => {
+  const removeRoutes = () => {
     removeRouteList.value.forEach((removeRoute) => removeRoute())
   }
 
@@ -70,5 +70,5 @@ export const menu = defineStore('menu', () => {
     return routes
   }
 
-  return { menus, menuListTree, removeRoute, fetchMenus, fetchMenuListTree }
+  return { menus, menuListTree, removeRoutes, fetchMenus, fetchMenuListTree }
 })

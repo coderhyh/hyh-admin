@@ -58,7 +58,9 @@
             <el-button type="primary" link></el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>重置密码</el-dropdown-item>
+                <el-dropdown-item :disabled="isUpdate" @click="$emit('onResetPassword', row)">
+                  重置密码
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -148,6 +150,7 @@ const emit = defineEmits<{
   (e: 'onEditClick', row: any): void
   (e: 'onCreateClick'): void
   (e: 'onBatchDelete', selectUsers: any[]): void
+  (e: 'onResetPassword', userItem: User.IUserInfo): void
 }>()
 const handleDeleteClick = (row: any) => {
   emit('onDeleteClick', row)

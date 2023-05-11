@@ -4,7 +4,7 @@
       <HeaderCrumbs />
       <HeaderControl />
     </section>
-    <HeaderTabs v-if="isShowHeaderTabs" />
+    <HeaderTabs v-show="isShowHeaderTabs" />
   </div>
 </template>
 

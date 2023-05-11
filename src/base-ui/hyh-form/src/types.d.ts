@@ -9,7 +9,8 @@ import type {
   ElSwitch,
   ElCascader,
   ElRadioGroup,
-  ElTreeSelect
+  ElTreeSelect,
+  ElFormItem
 } from 'element-plus'
 
 export interface IFormConfig {
@@ -28,6 +29,7 @@ export interface IFormDataList {
   modelValue: string
   defaultValue?: any
   label?: string
+  question?: string
   slotName?: string
   customSlotName?: string
   rules?: FormRules['key']
@@ -35,6 +37,7 @@ export interface IFormDataList {
   isDefaultCol?: boolean
   isShowCascaderTotal?: boolean
   isShowTreeChildrenTotal?: boolean
+  formItemProps?: InstanceType<typeof ElFormItem>['$props']
   selectProps?: {
     config?: { option: { label: string; value: string | number; disabled?: boolean }[] } & InstanceType<
       typeof ElSelect

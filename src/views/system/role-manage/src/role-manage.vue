@@ -60,6 +60,7 @@ import { formConfig, tableConfig } from './config'
 import { useDeleteRole, useHandleModalClick } from './hooks'
 
 const { fetchRoleList, pageParams } = useStore('role')
+const { tabs } = useStore('layout')
 const { userInfo } = useStore('user')
 const global = getCurrentInstance()?.proxy
 const pageTableRef = ref<InstanceType<typeof PageTable>>()

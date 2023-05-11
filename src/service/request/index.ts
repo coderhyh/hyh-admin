@@ -54,10 +54,12 @@ class Request {
 
         switch (err.response?.status) {
           case 401:
-            await userStore.logoutAction(false)
-            this.cancelAllToken()
-            elementUtils.$message('登录失效, 请重新登录')
-            router.replace('/login')
+            if (data?.redirect) {
+              await userStore.logoutAction(false)
+              this.cancelAllToken()
+              elementUtils.$message('登录失效, 请重新登录')
+              router.push(data?.redirect)
+            }
             break
           case 403:
             console.log('权限不足 403')

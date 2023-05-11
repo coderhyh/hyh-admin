@@ -15,6 +15,9 @@ import pinia, { menu, user } from './store'
 const app = createApp(App)
 app.use(registerProperty)
 app.use(pinia)
-user().token && (await menu().fetchMenus())
+user().token &&
+  (await menu()
+    .fetchMenus()
+    .catch((err) => {}))
 app.use(router)
 app.mount('#app')
