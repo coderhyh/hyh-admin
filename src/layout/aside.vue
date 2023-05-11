@@ -2,7 +2,7 @@
   <div class="aside" :style="{ width: `${asideWidth}px` }">
     <section>
       <img src="/favicon.ico" alt="logo" />
-      <h2 v-if="!isCollapse && size > 500" class="title">umabs</h2>
+      <h2 v-if="!isCollapse && size > 500" class="title">hyh-admin</h2>
     </section>
     <el-menu
       router

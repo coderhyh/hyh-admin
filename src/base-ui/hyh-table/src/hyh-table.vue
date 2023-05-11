@@ -14,6 +14,8 @@
       :data="tableData"
       highlight-current-row
       v-bind="tableConfig.tableProps"
+      :cell-class-name="() => 'cell-row'"
+      :header-row-class-name="() => 'header-row'"
       @selection-change="handleSelectionChange"
       @sort-change="handleSortChange"
     >

@@ -44,7 +44,14 @@ watch(
 .page-form {
   padding: 20px;
   border-radius: 10px;
-  background: white;
+  background-color: var(--hyh-bg-color);
   box-shadow: var(--el-box-shadow-lighter);
+  transition: all 0.3s ease;
+
+  :deep(.el-input__wrapper) {
+    background-color: var(--hyh-sub-bg);
+    box-shadow: 0 0 0 1px var(--hyh-shadow-color);
+    transition: all 0.3s ease;
+  }
 }
 </style>

@@ -173,14 +173,19 @@ const handleBatchDelete = () => {
 .page-table {
   padding: 20px;
   border-radius: 15px;
-  background-color: white;
+  background-color: var(--hyh-bg-color);
   box-shadow: var(--el-box-shadow-lighter);
+  transition: all 0.3s ease;
 
   .refresh {
     &:hover {
       color: var(--theme-color);
       transition: color 0.3s ease;
     }
+  }
+
+  .flex.content-center {
+    background: inherit;
   }
 
   .refresh-click {
@@ -195,6 +200,66 @@ const handleBatchDelete = () => {
 
   :deep(.el-dropdown) {
     align-items: center;
+  }
+
+  .cover-color() {
+    border-color: var(--hyh-border-color) !important;
+    background: var(--hyh-bg-color) !important;
+    transition: all 0.3s ease;
+  }
+
+  :deep(.el-table__inner-wrapper) {
+    &::after,
+    &::before {
+      background: var(--hyh-border-color) !important;
+      transition: all 0.3s ease;
+    }
+
+    tbody {
+      > tr {
+        background: var(--hyh-bg-color);
+
+        > td {
+          background: var(--hyh-bg-color);
+        }
+      }
+
+      .hover-row > td,
+      .hover-row .flex.content-center {
+        background: var(--hyh-sub-bg) !important;
+      }
+    }
+
+    .cell-row {
+      .cover-color();
+    }
+
+    .header-row {
+      th {
+        .cover-color();
+      }
+    }
+  }
+
+  :deep(.el-table--border) {
+    &::after,
+    .el-table__border-left-patch {
+      background: var(--hyh-border-color) !important;
+    }
+  }
+
+  :deep(.el-pagination) {
+    .el-input__wrapper {
+      .cover-color();
+
+      box-shadow: 0 0 0 1px var(--hyh-border-color);
+    }
+
+    .btn-prev,
+    .el-pager li,
+    .btn-next {
+      background: initial !important;
+    }
   }
 }
 </style>
