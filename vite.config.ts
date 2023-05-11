@@ -85,6 +85,7 @@ export default defineConfig({
         drop_debugger: true
       }
     }, // 去除 console debugger
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       manualChunks(id) {
         if (id.includes('node_modules')) {

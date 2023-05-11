@@ -13,11 +13,13 @@ import router from './router'
 import pinia, { menu, user } from './store'
 
 const app = createApp(App)
-app.use(registerProperty)
-app.use(pinia)
-user().token &&
-  (await menu()
-    .fetchMenus()
-    .catch((err) => {}))
-app.use(router)
-app.mount('#app')
+;(async () => {
+  app.use(registerProperty)
+  app.use(pinia)
+  user().token &&
+    (await menu()
+      .fetchMenus()
+      .catch((err) => {}))
+  app.use(router)
+  app.mount('#app')
+})()
