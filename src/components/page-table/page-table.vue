@@ -245,6 +245,7 @@ const handleBatchDelete = () => {
     &::after,
     .el-table__border-left-patch {
       background: var(--hyh-border-color) !important;
+      transition: all 0.3s ease;
     }
   }
 
