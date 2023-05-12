@@ -49,7 +49,7 @@ watch(
   transition: all 0.3s ease;
 
   :deep(.el-input__wrapper) {
-    background-color: var(--hyh-sub-bg);
+    background-color: var(--hyh-el-input-bg);
     box-shadow: 0 0 0 1px var(--hyh-shadow-color);
     transition: all 0.3s ease;
   }
