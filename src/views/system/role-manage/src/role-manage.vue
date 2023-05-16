@@ -19,9 +19,10 @@
           v-model="row.status"
           inline-prompt
           :disabled="isUpdate"
-          active-text="已冻结"
-          inactive-text="未冻结"
+          active-text="禁用"
+          inactive-text="启用"
           active-color="#e47470"
+          inactive-color="#409EFF"
           :active-value="1"
           :inactive-value="0"
           :before-change="handleSwitchChange(row)"

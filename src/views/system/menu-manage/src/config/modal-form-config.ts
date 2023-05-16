@@ -158,7 +158,7 @@ export const modalFormConfig = (
         config: {
           option: [
             { label: '正常', value: 0 },
-            { label: '冻结', value: 1 }
+            { label: '禁用', value: 1 }
           ]
         }
       }

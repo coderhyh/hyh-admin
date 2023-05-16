@@ -51,7 +51,7 @@ const { winSize } = useStore('layout')
 const pageTableRef = ref<InstanceType<typeof PageTable>>()
 const iconRef = ref<InstanceType<typeof Icon>>()
 
-const getStatusText = (status: App.AccountStatus) => (status === 0 ? '正常' : '冻结')
+const getStatusText = (status: App.AccountStatus) => (status === 0 ? '正常' : '禁用')
 
 // 删除角色
 const [handleDeleteClick, handleBatchDelete] = useDeleteMenu(pageTableRef)

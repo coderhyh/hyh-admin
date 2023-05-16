@@ -42,9 +42,10 @@ export const modalFormCreateConfig = (treeList: any[], grade: number): IFormConf
       modelValue: 'status',
       switchProps: {
         config: {
-          activeText: '已冻结',
+          activeText: '禁用',
+          inactiveText: '启用',
           activeColor: '#e47470',
-          inactiveText: '未冻结',
+          inactiveColor: '#409EFF',
           activeValue: 1,
           inactiveValue: 0
         }

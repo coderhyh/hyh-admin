@@ -24,7 +24,9 @@ const icons = [
   'mdi:list-box',
   'ion:ellipsis-horizontal',
   'mdi:refresh',
-  'material-symbols:help-rounded'
+  'material-symbols:help-rounded',
+  'material-symbols:language-us',
+  'carbon:earth-europe-africa'
 ]
 defineExpose({ icons })
 </script>
