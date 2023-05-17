@@ -25,8 +25,6 @@ const { isCollapse, winSize: size } = useStore('layout')
 const route = useRoute()
 const router = useRouter()
 
-const routes = router.getRoutes()
-
 const updateCollapse = () => {
   isCollapse.value = !isCollapse.value
   if (isCollapse.value) {
@@ -37,6 +35,7 @@ const updateCollapse = () => {
 }
 
 const breadcrumbArr = computed((): RouteRecordRaw[] => {
+  const routes = router.getRoutes()
   const currentRouteName = route.meta.name
   const currentRouteObj = getTreeParent(routes, currentRouteName)
   const currentRoute: RouteRecordRaw[] = readNodes(currentRouteObj, route.meta?.name as string)

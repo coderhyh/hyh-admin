@@ -35,6 +35,7 @@ export const menu = defineStore('menu', () => {
 
   const fetchMenus = async () =>
     useFetchTryCatch(async () => {
+      removeRoutes()
       const res = await getMenus<{ code: number; menu: Menu.IMenuListTree[] }>()
       const routes = createRoutesFromMenu(res.menu)
       menus.value = [...defaultMenus, ...routes]
@@ -47,6 +48,7 @@ export const menu = defineStore('menu', () => {
 
   const removeRoutes = () => {
     removeRouteList.value.forEach((removeRoute) => removeRoute())
+    removeRouteList.value = []
   }
 
   function createRoutesFromMenu(menuItems: Menu.IMenuListTree[]) {
