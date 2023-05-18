@@ -66,7 +66,7 @@ export const modalFormCreateConfig = (treeList: any[], grade: number): IFormConf
       type: 'tree',
       label: '权限选择',
       modelValue: 'permissionList',
-      defaultValue: [],
+      defaultValue: () => [],
       treeProps: {
         config: {
           showCheckbox: true,
