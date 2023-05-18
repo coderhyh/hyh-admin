@@ -20,4 +20,12 @@ declare namespace App {
     grade: number
     disabled?: boolean
   }
+
+  interface IPageListParams<T = {}> {
+    pageNo: number
+    pageSize: number
+    orderBy: string
+    order: 'ASC' | 'DESC'
+    queryCondition: T
+  }
 }

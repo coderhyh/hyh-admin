@@ -2,7 +2,6 @@
   <div class="menu-manage">
     <PageTable
       ref="pageTableRef"
-      page-type="role"
       :automatic-request-fn="fetchMenuListTree"
       :table-config="tableConfig"
       edit-text="编辑"

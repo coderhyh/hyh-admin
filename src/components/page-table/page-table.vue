@@ -2,13 +2,13 @@
   <div class="page-table">
     <HyhTable
       ref="hyhTableRef"
-      v-model:page="pageParams"
+      v-model:page="store.pageParams"
       v-bind="{
         tableConfig,
         tableData: automaticRequestFn ? _tableData : tableData,
         isLoading,
         isShowSelectColumn,
-        pageTotal
+        pageTotal: store.pageTotal
       }"
       @on-page-change="handlePageChange"
       @on-sort-change="handlePageChange"
@@ -84,7 +84,7 @@ const props = withDefaults(
     tableConfig: ITableConfig
     automaticRequestFn?: (...args: any[]) => Promise<any>
     tableData?: any[]
-    pageType: 'role' | 'user'
+    pageType?: undefined | 'role' | 'user'
     editText?: string
     isShowMore?: boolean
     isShowRefresh?: boolean
@@ -94,7 +94,8 @@ const props = withDefaults(
     tableData: () => [],
     editText: '编辑',
     isShowMore: false,
-    isShowRefresh: true
+    isShowRefresh: true,
+    pageType: undefined
   }
 )
 const isShowSelectColumn = ref(false)
@@ -123,7 +124,10 @@ watch(winSize, () => {
   hyhTableRef.value!.doLayout()
 })
 // 请求数据
-const { pageParams, pageTotal } = useStore(props.pageType)
+const store = ref<App.IDefaultObject>({})
+if (props.pageType) {
+  store.value = useStore(props.pageType)
+}
 const _tableData = ref<any[]>([])
 const handlePageChange = async () => {
   props.tableConfig.columnUnifyConfig?.sortable === 'custom' && (await fetchData())

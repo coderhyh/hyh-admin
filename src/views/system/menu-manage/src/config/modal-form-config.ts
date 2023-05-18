@@ -113,13 +113,7 @@ export const modalFormConfig = (
           placeholder: '请输入路由地址'
         }
       },
-      rules: [{ required: true, message: '路由地址不能为空', trigger: 'blur' }],
-      colProps: {
-        sm: 12,
-        md: 12,
-        lg: 12,
-        xl: 12
-      }
+      rules: [{ required: true, message: '路由地址不能为空', trigger: 'blur' }]
     },
     {
       type: 'input',
@@ -130,13 +124,7 @@ export const modalFormConfig = (
           placeholder: '请输入路由名称'
         }
       },
-      rules: [{ required: true, message: '路由名称不能为空', trigger: 'blur' }],
-      colProps: {
-        sm: 12,
-        md: 12,
-        lg: 12,
-        xl: 12
-      }
+      rules: [{ required: true, message: '路由名称不能为空', trigger: 'blur' }]
     },
     {
       label: '菜单图标',

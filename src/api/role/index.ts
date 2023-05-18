@@ -1,10 +1,10 @@
 import request from '~/service'
 
-import { ICreateRole, IGetUserListParams, IUpdateRoleParams, IUpdateRoleStatusParams } from './types'
+import { ICreateRole, IGetRoleListParams, IUpdateRoleParams, IUpdateRoleStatusParams } from './types'
 
 export const createRole = <T>(data: ICreateRole) => request.post<T>({ url: '/role/create', data, showLoading: true })
 
-export const getRoleList = <T>(data: IGetUserListParams) => request.post<T>({ url: '/role/list', data })
+export const getRoleList = <T>(data: IGetRoleListParams) => request.post<T>({ url: '/role/list', data })
 
 export const getRoleListSelect = <T>() => request.get<T>({ url: '/role/list-select' })
 

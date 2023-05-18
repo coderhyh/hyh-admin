@@ -16,8 +16,8 @@ const props = defineProps<{
   formConfig: IFormConfig
 }>()
 const emit = defineEmits<{
-  (e: 'formDataChange', formData: { [k: string]: string }): void
-  (e: 'queryClick', formData: { [k: string]: string }): void
+  (e: 'formDataChange', formData: any): void
+  (e: 'queryClick', formData: any): void
 }>()
 
 const formDataOrigin = useFormDataOrigin(props.formConfig.formDataList)

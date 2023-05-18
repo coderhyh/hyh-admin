@@ -54,6 +54,7 @@
 
 <script setup lang="ts">
 import { updateRoleStatus } from '~/api/role'
+import { IGetRoleListParams } from '~/api/role/types'
 import PageTable from '~/components/page-table/page-table.vue'
 import { ACCOUNT_STATUS } from '~/enums'
 
@@ -72,8 +73,8 @@ const isUpdate = useVerifyPermission('table', 'update')
 const handleQueryClick = () => {
   pageTableRef.value?.fetchData()
 }
-const handleFormDataChange = ({ id, role_name, role_alias }: App.IDefaultObject) => {
-  pageParams.value.queryCondition = { id, role_name, role_alias }
+const handleFormDataChange = (queryCondition: IGetRoleListParams['queryCondition']) => {
+  pageParams.value.queryCondition = queryCondition
 }
 
 // 删除角色

@@ -6,13 +6,7 @@ export interface ICreateRole {
   permissionList: number
 }
 
-export interface IGetUserListParams {
-  pageNo: number
-  pageSize: number
-  orderBy: string
-  order: 'ASC' | 'DESC'
-  queryCondition: { id: string; role_name: string; role_alias: string }
-}
+export type IGetRoleListParams = App.IPageListParams<{ id: string; role_name: string; role_alias: string }>
 
 export interface IUpdateRoleParams {
   roleId: number

@@ -57,6 +57,7 @@
 import { ElMessageBox } from 'element-plus'
 
 import { resetPassword, updateUserStatus } from '~/api/user'
+import { IGetUserListParams } from '~/api/user/types'
 import PageTable from '~/components/page-table/page-table.vue'
 import { ACCOUNT_STATUS } from '~/enums'
 
@@ -73,8 +74,8 @@ const isUpdate = useVerifyPermission('table', 'update')
 const handleQueryClick = () => {
   pageTableRef.value?.fetchData()
 }
-const handleFormDataChange = ({ id, username, nickname }: App.IDefaultObject) => {
-  pageParams.value.queryCondition = { id, username, nickname }
+const handleFormDataChange = (queryCondition: IGetUserListParams['queryCondition']) => {
+  pageParams.value.queryCondition = queryCondition
 }
 // 删除用户
 const [handleDeleteClick, handleBatchDelete] = useDeleteUser(pageTableRef, curRoleGrade)
