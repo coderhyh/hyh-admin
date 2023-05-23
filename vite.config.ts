@@ -54,7 +54,12 @@ export default defineConfig({
     // see unocss.config.ts for config
     Unocss(),
     viteCompression({
-      threshold: 1024000 // 对大于 1mb 的文件进行压缩
+      verbose: true, // 默认即可
+      disable: false, //开启压缩(不禁用)，默认即可
+      deleteOriginFile: false, //删除源文件
+      threshold: 10240, //压缩前最小文件大小
+      algorithm: 'gzip', //压缩算法
+      ext: '.gz' //文件类型
     })
   ],
   resolve: { alias: { '~': resolve(__dirname, 'src') } },
