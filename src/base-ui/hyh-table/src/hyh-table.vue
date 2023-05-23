@@ -55,7 +55,7 @@
           v-model:current-page="_page.pageNo"
           v-model:page-size="_page.pageSize"
           :page-sizes="[20, 40]"
-          layout="total, sizes, prev, pager, next, jumper"
+          :layout="paginationLayout"
           :total="pageTotal"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -67,6 +67,8 @@
 
 <script setup lang="ts">
 import { ElTable } from 'element-plus'
+
+import { DEVICE } from '~/global/mapDeviceSize'
 
 import { ITableConfig } from './type'
 
@@ -101,6 +103,14 @@ const emit = defineEmits<{
   (e: 'onSortChange'): void
   (e: 'update:page', value: typeof props['page']): void
 }>()
+
+const { winSize } = useStore('layout')
+const paginationLayout = computed(
+  () => (
+    winSize.value,
+    window.innerWidth > DEVICE.mobile ? 'total, sizes, prev, pager, next, jumper' : 'total, prev, pager, next'
+  )
+)
 
 const tableRef = ref<InstanceType<typeof ElTable>>()
 

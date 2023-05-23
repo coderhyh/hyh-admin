@@ -22,6 +22,12 @@ import LoginForm from './cpns/login-form.vue'
     display: none !important;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .login-wrap {
+    min-height: 420px !important;
+  }
+}
 </style>
 
 <style scoped lang="less">
@@ -43,6 +49,7 @@ import LoginForm from './cpns/login-form.vue'
     min-height: 480px;
     background-color: #fff;
     box-shadow: var(--el-box-shadow);
+    transition: all 0.3s ease;
   }
 
   .overlay-wrap {

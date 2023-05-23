@@ -44,12 +44,19 @@ const handlerSubmit = async () => {
 </script>
 
 <style lang="less" scoped>
+@media screen and (max-width: 500px) {
+  .login-form {
+    width: 310px !important;
+  }
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 384px;
+  transition: all 0.3s ease;
 
   section {
     margin-bottom: 20px;

@@ -6,7 +6,7 @@
       size="30px"
       @click="updateCollapse"
     />
-    <el-breadcrumb separator="/">
+    <el-breadcrumb v-show="isShowHeaderCrumbs" separator="/">
       <el-breadcrumb-item to="/">控制台</el-breadcrumb-item>
       <transition-group name="breadcrumb">
         <el-breadcrumb-item v-for="item in breadcrumbArr" :key="item.path" :to="item.children ? '' : item.path">
@@ -24,6 +24,8 @@ import { DEVICE } from '~/global/mapDeviceSize'
 const { isCollapse, winSize: size } = useStore('layout')
 const route = useRoute()
 const router = useRouter()
+const { winSize } = useStore('layout')
+const isShowHeaderCrumbs = computed(() => (winSize.value, window.innerWidth > DEVICE.mobile))
 
 const updateCollapse = () => {
   isCollapse.value = !isCollapse.value
@@ -71,7 +73,6 @@ function readNodes(node: RouteRecordRaw, target = ''): RouteRecordRaw[] {
 .crumbs {
   display: flex;
   align-items: center;
-  min-width: 330px;
   height: 60px;
 
   &-icon {

@@ -21,7 +21,7 @@
     <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
       <li @click="tabRemove()">关闭</li>
       <li @click="tabRemoveOther">关闭其他</li>
-      <li @click="tabRemoveRight">关闭到右侧</li>
+      <li @click="tabRemoveRight">关闭右侧</li>
       <li @click="tabRemoveAll">关闭所有</li>
     </ul>
   </div>
