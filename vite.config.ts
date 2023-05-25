@@ -10,7 +10,8 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import viteCompression from 'vite-plugin-compression'
 
-import AutoImportTypes from './src/plugins/autoImportType'
+import AutoImportTypes from './src/helper/autoImportType'
+import PiniaAutoRefs from './src/helper/piniaAutoRefs'
 import vitestConfig from './vitestConfig'
 
 // https://vitejs.dev/config/
@@ -22,13 +23,13 @@ export default defineConfig({
       reactivityTransform: true
     }),
     AutoImportTypes({ dtsDir: 'src/types' }),
+    PiniaAutoRefs(),
     // https://github.com/antfu/unplugin-auto-import
     AutoImport({
       imports: [
         'vue',
         'pinia',
         'vue-router',
-        { '~/plugins/piniaAutoRefs': ['useStore'] },
         {
           '~/hooks': fs
             .readdirSync(resolve(__dirname, './src/hooks'))

@@ -1,6 +1,6 @@
 export const defaultTab: App.ITab = { title: '控制台', path: '/' }
 
-export const layout = defineStore(
+export default defineStore(
   'layout',
   () => {
     const isCollapse = ref(false)

@@ -1,4 +1,4 @@
-import { user } from '~/store/index'
+import { user } from '~/store'
 
 import Request from './request'
 

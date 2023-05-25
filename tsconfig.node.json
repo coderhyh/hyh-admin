@@ -5,5 +5,5 @@
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["vite.config.ts", "./src/plugins/autoImportType.ts", "./vitestConfig.ts"]
+  "include": ["vite.config.ts", "./src/helper/autoImportType.ts", "./src/helper/piniaAutoRefs.ts", "./vitestConfig.ts"]
 }

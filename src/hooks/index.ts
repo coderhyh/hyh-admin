@@ -1,5 +1,6 @@
 export * from './useFetchTryCatch'
 export * from './useFormDataOrigin'
 export * from './usePageModal'
+export * from './useStore'
 export * from './useVerifyPermission'
 export * from './useVModel'

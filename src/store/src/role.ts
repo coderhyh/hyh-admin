@@ -2,7 +2,7 @@ import { getRoleList } from '~/api/role'
 import { IGetRoleListParams } from '~/api/role/types'
 import { elementUtils } from '~/global/elementUtils'
 
-export const role = defineStore('role', () => {
+export default defineStore('role', () => {
   const pageTotal = ref<number>(0)
   const roleList = ref<Role.IRoleInfo[]>([])
   const pageParams = ref<IGetRoleListParams>({

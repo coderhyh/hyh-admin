@@ -4,7 +4,7 @@ import { elementUtils } from '~/global/elementUtils'
 
 import { defaultTab } from './layout'
 
-export const user = defineStore(
+export default defineStore(
   'user',
   () => {
     const { tabs } = useStore('layout')

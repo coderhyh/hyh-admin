@@ -4,7 +4,7 @@ import { getMenuListTree, getMenus } from '~/api/menu'
 import { elementUtils } from '~/global/elementUtils'
 import router from '~/router'
 
-export const menu = defineStore('menu', () => {
+export default defineStore('menu', () => {
   const defaultMenus = [
     {
       path: '',
