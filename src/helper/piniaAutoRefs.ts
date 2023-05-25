@@ -31,10 +31,11 @@ export default function (options: Options = {}) {
       .map((i) => i.replace('.ts', ''))
       .filter((i) => !excludes.includes(i))
 
+    const toHump = (s: string) => s.replace(/[-_]([A-z\d])/g, (_, $1) => $1.toUpperCase())
     const ctx = `import type { ToRef } from 'vue'
 
 ${storeNames.reduce(
-  (str, storeName) => `${str}import ${storeName}Store from '${storeDir.replace('src', pathAlias)}/${storeName}'
+  (str, storeName) => `${str}import ${toHump(storeName)}Store from '${storeDir.replace('src', pathAlias)}/${storeName}'
 `,
   ''
 )}
@@ -44,7 +45,9 @@ type AutoToRefs<T> = {
 
 const storeExports = {
 ${storeNames.reduce(
-  (str, storeName, i) => `${str}  ${storeName}: ${storeName}Store${i === storeNames.length - 1 ? '' : ','}
+  (str, storeName, i) => `${str}  ${toHump(storeName)}: ${toHump(storeName)}Store${
+    i === storeNames.length - 1 ? '' : ','
+  }
 `,
   ''
 )}}
