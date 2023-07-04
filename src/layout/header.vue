@@ -11,8 +11,8 @@
 <script lang="ts" setup>
 import { DEVICE } from '~/global/mapDeviceSize'
 
-const { winSize } = useStore('layout')
-const isShowHeaderTabs = computed(() => (winSize.value, window.innerWidth > DEVICE.mobile))
+const { winSize, winWidth } = useStore('layout')
+const isShowHeaderTabs = computed(() => (winSize.value, winWidth.value > DEVICE.mobile))
 </script>
 
 <style lang="less" scoped>

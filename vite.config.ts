@@ -14,6 +14,9 @@ import AutoImportTypes from './src/helper/autoImportType'
 import PiniaAutoRefs from './src/helper/piniaAutoRefs'
 import vitestConfig from './vitestConfig'
 
+const readFileName = (path: string, excludes: string[]) =>
+  fs.readdirSync(path).reduce((arr, file) => (!excludes.includes(file) && arr.push(file.split('.')[0]), arr), [])
+
 // https://vitejs.dev/config/
 export default defineConfig({
   test: vitestConfig,
@@ -31,10 +34,7 @@ export default defineConfig({
         'pinia',
         'vue-router',
         {
-          '~/hooks': fs
-            .readdirSync(resolve(__dirname, './src/hooks'))
-            .filter((dir) => dir !== 'index.ts')
-            .map((r) => r.split('.')[0])
+          '~/hooks': readFileName(resolve(__dirname, './src/hooks'), ['index.ts'])
         }
       ],
       dts: 'src/auto-imports.d.ts',

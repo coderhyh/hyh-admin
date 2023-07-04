@@ -5,7 +5,8 @@ export default defineStore(
   () => {
     const isCollapse = ref(false)
     const tabs = ref([defaultTab])
-    const winSize = ref(window.innerWidth)
+    const winSize = ref(document.documentElement.clientWidth)
+    const winWidth = ref(document.documentElement.clientWidth)
     const theme = ref<'dark' | 'light'>('light')
 
     const toggleTheme = () => {
@@ -16,7 +17,11 @@ export default defineStore(
       document.body.setAttribute('theme-mode', theme.value)
     }
 
-    const resize = () => (winSize.value = window.innerWidth)
+    const resize = () => {
+      const winW = document.documentElement.clientWidth
+      winSize.value = winW
+      winWidth.value = winW
+    }
     window.addEventListener('resize', resize)
 
     const addTab = (tab: App.ITab = defaultTab) => {
@@ -41,6 +46,7 @@ export default defineStore(
       isCollapse,
       tabs,
       winSize,
+      winWidth,
       theme,
       toggleTheme,
       setBodyTheme,

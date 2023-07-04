@@ -104,11 +104,11 @@ const emit = defineEmits<{
   (e: 'update:page', value: typeof props['page']): void
 }>()
 
-const { winSize } = useStore('layout')
+const { winSize, winWidth } = useStore('layout')
 const paginationLayout = computed(
   () => (
     winSize.value,
-    window.innerWidth > DEVICE.mobile ? 'total, sizes, prev, pager, next, jumper' : 'total, prev, pager, next'
+    winWidth.value > DEVICE.mobile ? 'total, sizes, prev, pager, next, jumper' : 'total, prev, pager, next'
   )
 )
 

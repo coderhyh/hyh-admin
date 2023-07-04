@@ -23,9 +23,9 @@
 <script setup lang="ts">
 import { DEVICE } from '~/global/mapDeviceSize'
 import { Aside, Header } from '~/layout'
-const { tabs, winSize } = useStore('layout')
+const { tabs, winSize, winWidth } = useStore('layout')
 
-const headerHeight = computed(() => (winSize.value, window.innerWidth <= DEVICE.mobile ? '60px' : '100px'))
+const headerHeight = computed(() => (winSize.value, winWidth.value <= DEVICE.mobile ? '60px' : '100px'))
 </script>
 
 <style lang="less" scoped>

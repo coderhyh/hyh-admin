@@ -22,15 +22,15 @@
 import { DEVICE } from '~/global/mapDeviceSize'
 
 const { menus } = useStore('menu')
-const { isCollapse, winSize: size } = useStore('layout')
+const { isCollapse, winSize: size, winWidth } = useStore('layout')
 
 const route = useRoute()
 const currentPath = computed(() => route.fullPath.slice(route.fullPath.lastIndexOf('/') + 1))
 
 const menuSelect = () => {
-  if (window.innerWidth <= DEVICE.mobile) {
+  if (winWidth.value <= DEVICE.mobile) {
     isCollapse.value = true
-    size.value = window.innerWidth > DEVICE.ipad ? 600 : window.innerWidth
+    size.value = winWidth.value > DEVICE.ipad ? 600 : winWidth.value
   }
 }
 

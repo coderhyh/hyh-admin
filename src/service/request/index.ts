@@ -48,7 +48,7 @@ class Request {
       },
       async (err: AxiosError) => {
         const userStore = user()
-        const data = err.response?.data as { [k: string]: any }
+        const data: { redirect: string } = err.response?.data as any
 
         if (err.code !== 'ERR_CANCELED') this.showLoading && NProgress.done()
 

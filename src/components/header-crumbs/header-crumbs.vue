@@ -21,18 +21,17 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 import { DEVICE } from '~/global/mapDeviceSize'
-const { isCollapse, winSize: size } = useStore('layout')
+const { isCollapse, winSize, winWidth } = useStore('layout')
 const route = useRoute()
 const router = useRouter()
-const { winSize } = useStore('layout')
-const isShowHeaderCrumbs = computed(() => (winSize.value, window.innerWidth > DEVICE.mobile))
+const isShowHeaderCrumbs = computed(() => (winSize.value, winWidth.value > DEVICE.mobile))
 
 const updateCollapse = () => {
   isCollapse.value = !isCollapse.value
   if (isCollapse.value) {
-    size.value = window.innerWidth > DEVICE.ipad ? 600 : window.innerWidth
+    winSize.value = winWidth.value > DEVICE.ipad ? 600 : winWidth.value
   } else {
-    size.value = DEVICE.ipad + 1
+    winSize.value = DEVICE.ipad + 1
   }
 }
 
